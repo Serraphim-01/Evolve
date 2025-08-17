@@ -55,10 +55,10 @@ export const Dashboard = () => {
     : mockMissions.filter(mission => mission.language === selectedLanguage);
 
   const stats = [
-    { title: 'Missions Completed', value: user?.completedMissions || 0, icon: Trophy, color: 'text-yellow-400' },
-    { title: 'Current Level', value: user?.level || 0, icon: Target, color: 'text-blue-400' },
-    { title: 'Total XP', value: user?.xp || 0, icon: Users, color: 'text-green-400' },
-    { title: 'Missions Created', value: user?.createdMissions || 0, icon: Clock, color: 'text-purple-400' }
+    { title: 'Missions Completed', value: user?.completedMissions || 0, icon: Trophy, color: 'text-hacker-green' },
+    { title: 'Current Level', value: user?.level || 0, icon: Target, color: 'text-hacker-green' },
+    { title: 'Total XP', value: user?.xp || 0, icon: Users, color: 'text-hacker-green' },
+    { title: 'Missions Created', value: user?.createdMissions || 0, icon: Clock, color: 'text-hacker-green' }
   ];
 
   return (
@@ -68,7 +68,7 @@ export const Dashboard = () => {
           <h1 className="text-3xl font-bold text-white mb-2">
             Welcome back, {user?.username}!
           </h1>
-          <p className="text-gray-400">Ready to tackle some new challenges?</p>
+          <p className="text-white">Ready to tackle some new challenges?</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -77,7 +77,7 @@ export const Dashboard = () => {
           ))}
         </div>
 
-        <div className="bg-gray-900 rounded-xl p-6 mb-8">
+        <div className="bg-black rounded-xl p-6 mb-8">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
             <h2 className="text-xl font-semibold text-white mb-4 sm:mb-0">
               Available Missions
@@ -89,8 +89,8 @@ export const Dashboard = () => {
                   onClick={() => setSelectedLanguage(lang)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                     selectedLanguage === lang
-                      ? 'bg-white text-black'
-                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                      ? 'bg-hacker-green text-black'
+                      : 'bg-black text-white hover:bg-hacker-green hover:text-black border border-white'
                   }`}
                 >
                   {lang === 'all' ? 'All Languages' : lang}

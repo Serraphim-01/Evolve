@@ -78,9 +78,9 @@ export const Chat = () => {
 
   return (
     <div className="flex-1 bg-black min-h-screen flex flex-col">
-      <div className="border-b border-gray-800 p-6">
+      <div className="border-b border-white p-6">
         <h1 className="text-2xl font-bold text-white">Community Chat</h1>
-        <p className="text-gray-400">Connect with fellow developers</p>
+        <p className="text-white">Connect with fellow developers</p>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -89,17 +89,17 @@ export const Chat = () => {
             <img
               src={message.avatar}
               alt={message.username}
-              className="w-10 h-10 rounded-full flex-shrink-0"
+              className="w-10 h-10 rounded-full flex-shrink-0 border-2 border-hacker-green"
             />
             <div className="flex-1">
               <div className="flex items-center space-x-2 mb-1">
-                <span className="font-medium text-white">{message.username}</span>
-                <span className="text-xs text-gray-400">
+                <span className="font-medium text-hacker-green">{message.username}</span>
+                <span className="text-xs text-white">
                   {formatTime(message.timestamp)}
                 </span>
               </div>
-              <div className="bg-gray-900 rounded-lg rounded-tl-none px-4 py-3">
-                <p className="text-gray-300">{message.message}</p>
+              <div className="bg-black border border-white rounded-lg rounded-tl-none px-4 py-3">
+                <p className="text-white">{message.message}</p>
               </div>
             </div>
           </div>
@@ -107,7 +107,7 @@ export const Chat = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      <form onSubmit={handleSendMessage} className="border-t border-gray-800 p-6">
+      <form onSubmit={handleSendMessage} className="border-t border-white p-6">
         <div className="flex space-x-4">
           <div className="flex-1 relative">
             <input
@@ -115,18 +115,18 @@ export const Chat = () => {
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type your message..."
-              className="w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg focus:border-white focus:outline-none text-white placeholder-gray-400 pr-20"
+              className="w-full px-4 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white placeholder-white pr-20"
             />
             <div className="absolute right-3 top-3.5 flex space-x-2">
               <button
                 type="button"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-white hover:text-hacker-green transition-colors"
               >
                 <Paperclip className="h-5 w-5" />
               </button>
               <button
                 type="button"
-                className="text-gray-400 hover:text-white transition-colors"
+                className="text-white hover:text-hacker-green transition-colors"
               >
                 <Smile className="h-5 w-5" />
               </button>
@@ -135,7 +135,7 @@ export const Chat = () => {
           <button
             type="submit"
             disabled={!newMessage.trim()}
-            className="bg-white text-black px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+            className="bg-hacker-green text-black px-6 py-3 rounded-lg font-medium hover:bg-opacity-80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
           >
             <Send className="h-5 w-5" />
             <span>Send</span>

@@ -10,13 +10,13 @@ interface StatsCardProps {
 
 export const StatsCard: React.FC<StatsCardProps> = ({ title, value, icon: Icon, color }) => {
   return (
-    <div className="bg-gray-900 rounded-lg p-6 border border-gray-800">
+    <div className="bg-black rounded-lg p-6 border border-white">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-gray-400 text-sm font-medium">{title}</p>
+          <p className="text-white text-sm font-medium">{title}</p>
           <p className="text-2xl font-bold text-white mt-1">{value.toLocaleString()}</p>
         </div>
-        <div className={`p-3 rounded-lg bg-gray-800`}>
+        <div className={`p-3 rounded-lg bg-black`}>
           <Icon className={`h-6 w-6 ${color}`} />
         </div>
       </div>

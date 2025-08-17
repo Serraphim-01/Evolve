@@ -63,37 +63,37 @@ export const Settings = () => {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Username
                 </label>
                 <div className="relative">
-                  <User className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                  <User className="absolute left-3 top-3.5 h-5 w-5 text-white" />
                   <input
                     type="text"
                     value={formData.username}
                     onChange={(e) => handleInputChange('username', e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-white focus:outline-none text-white"
+                    className="w-full pl-10 pr-4 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Email
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                  <Mail className="absolute left-3 top-3.5 h-5 w-5 text-white" />
                   <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => handleInputChange('email', e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-white focus:outline-none text-white"
+                    className="w-full pl-10 pr-4 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white"
                   />
                 </div>
               </div>
             </div>
             
-            <button className="flex items-center space-x-2 bg-white text-black px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+            <button className="flex items-center space-x-2 bg-hacker-green text-black px-6 py-3 rounded-lg font-medium hover:bg-opacity-80 transition-colors">
               <Save className="h-5 w-5" />
               <span>Save Changes</span>
             </button>
@@ -107,12 +107,12 @@ export const Settings = () => {
             
             <div className="space-y-4">
               {Object.entries(notifications).map(([key, value]) => (
-                <div key={key} className="flex items-center justify-between p-4 bg-gray-800 rounded-lg">
+                <div key={key} className="flex items-center justify-between p-4 bg-black border border-white rounded-lg">
                   <div>
                     <h4 className="font-medium text-white">
                       {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                     </h4>
-                    <p className="text-sm text-gray-400">
+                    <p className="text-sm text-white">
                       {key === 'missionUpdates' && 'Get notified about new missions and updates'}
                       {key === 'achievementUnlocks' && 'Celebrate when you unlock new achievements'}
                       {key === 'chatMessages' && 'Receive notifications for chat messages'}
@@ -121,8 +121,8 @@ export const Settings = () => {
                   </div>
                   <button
                     onClick={() => toggleNotification(key as keyof typeof notifications)}
-                    className={`w-12 h-6 rounded-full transition-colors ${
-                      value ? 'bg-white' : 'bg-gray-600'
+                    className={`w-12 h-6 rounded-full transition-colors border border-white ${
+                      value ? 'bg-hacker-green' : 'bg-black'
                     }`}
                   >
                     <div
@@ -146,21 +146,21 @@ export const Settings = () => {
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Current Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-white" />
                   <input
                     type={showPasswords.current ? 'text' : 'password'}
                     value={formData.currentPassword}
                     onChange={(e) => handleInputChange('currentPassword', e.target.value)}
-                    className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-white focus:outline-none text-white"
+                    className="w-full pl-10 pr-12 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white"
                   />
                   <button
                     type="button"
                     onClick={() => togglePasswordVisibility('current')}
-                    className="absolute right-3 top-3.5 text-gray-400 hover:text-white"
+                    className="absolute right-3 top-3.5 text-white hover:text-hacker-green"
                   >
                     {showPasswords.current ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
@@ -168,21 +168,21 @@ export const Settings = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   New Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-white" />
                   <input
                     type={showPasswords.new ? 'text' : 'password'}
                     value={formData.newPassword}
                     onChange={(e) => handleInputChange('newPassword', e.target.value)}
-                    className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-white focus:outline-none text-white"
+                    className="w-full pl-10 pr-12 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white"
                   />
                   <button
                     type="button"
                     onClick={() => togglePasswordVisibility('new')}
-                    className="absolute right-3 top-3.5 text-gray-400 hover:text-white"
+                    className="absolute right-3 top-3.5 text-white hover:text-hacker-green"
                   >
                     {showPasswords.new ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
@@ -190,21 +190,21 @@ export const Settings = () => {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Confirm New Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+                  <Lock className="absolute left-3 top-3.5 h-5 w-5 text-white" />
                   <input
                     type={showPasswords.confirm ? 'text' : 'password'}
                     value={formData.confirmPassword}
                     onChange={(e) => handleInputChange('confirmPassword', e.target.value)}
-                    className="w-full pl-10 pr-12 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:border-white focus:outline-none text-white"
+                    className="w-full pl-10 pr-12 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white"
                   />
                   <button
                     type="button"
                     onClick={() => togglePasswordVisibility('confirm')}
-                    className="absolute right-3 top-3.5 text-gray-400 hover:text-white"
+                    className="absolute right-3 top-3.5 text-white hover:text-hacker-green"
                   >
                     {showPasswords.confirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                   </button>
@@ -212,7 +212,7 @@ export const Settings = () => {
               </div>
             </div>
             
-            <button className="flex items-center space-x-2 bg-white text-black px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+            <button className="flex items-center space-x-2 bg-hacker-green text-black px-6 py-3 rounded-lg font-medium hover:bg-opacity-80 transition-colors">
               <Save className="h-5 w-5" />
               <span>Update Password</span>
             </button>
@@ -225,12 +225,12 @@ export const Settings = () => {
             <h3 className="text-xl font-semibold text-white mb-4">Preferences</h3>
             
             <div className="space-y-4">
-              <div className="p-4 bg-gray-800 rounded-lg">
+              <div className="p-4 bg-black border border-white rounded-lg">
                 <div className="flex items-center space-x-3 mb-2">
-                  <Globe className="h-5 w-5 text-gray-400" />
+                  <Globe className="h-5 w-5 text-white" />
                   <h4 className="font-medium text-white">Language</h4>
                 </div>
-                <select className="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:border-white focus:outline-none">
+                <select className="w-full p-3 bg-black border border-white rounded-lg text-white focus:border-hacker-green focus:outline-none">
                   <option value="en">English</option>
                   <option value="es">Spanish</option>
                   <option value="fr">French</option>
@@ -238,16 +238,16 @@ export const Settings = () => {
                 </select>
               </div>
               
-              <div className="p-4 bg-gray-800 rounded-lg">
+              <div className="p-4 bg-black border border-white rounded-lg">
                 <div className="flex items-center space-x-3 mb-2">
-                  <Palette className="h-5 w-5 text-gray-400" />
+                  <Palette className="h-5 w-5 text-white" />
                   <h4 className="font-medium text-white">Theme</h4>
                 </div>
-                <p className="text-sm text-gray-400 mb-3">Currently using Dark Mode (Black)</p>
+                <p className="text-sm text-white mb-3">Currently using Dark Mode (Black)</p>
                 <div className="flex space-x-2">
-                  <div className="w-8 h-8 bg-black border-2 border-white rounded-lg"></div>
-                  <div className="w-8 h-8 bg-gray-800 border border-gray-600 rounded-lg opacity-50"></div>
-                  <div className="w-8 h-8 bg-gray-600 border border-gray-500 rounded-lg opacity-50"></div>
+                  <div className="w-8 h-8 bg-black border-2 border-hacker-green rounded-lg"></div>
+                  <div className="w-8 h-8 bg-gray-800 border border-white rounded-lg opacity-50"></div>
+                  <div className="w-8 h-8 bg-gray-600 border border-white rounded-lg opacity-50"></div>
                 </div>
               </div>
             </div>
@@ -264,12 +264,12 @@ export const Settings = () => {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-white mb-2">Settings</h1>
-          <p className="text-gray-400">Manage your account preferences and settings</p>
+          <p className="text-white">Manage your account preferences and settings</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="lg:col-span-1">
-            <div className="bg-gray-900 rounded-xl p-4">
+            <div className="bg-black border border-white rounded-xl p-4">
               <nav className="space-y-2">
                 {tabs.map(({ id, label, icon: Icon }) => (
                   <button
@@ -277,8 +277,8 @@ export const Settings = () => {
                     onClick={() => setActiveTab(id)}
                     className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
                       activeTab === id
-                        ? 'bg-white text-black'
-                        : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                        ? 'bg-hacker-green text-black'
+                        : 'text-white hover:bg-hacker-green hover:text-black'
                     }`}
                   >
                     <Icon className="h-5 w-5" />
@@ -290,7 +290,7 @@ export const Settings = () => {
           </div>
 
           <div className="lg:col-span-3">
-            <div className="bg-gray-900 rounded-xl p-8">
+            <div className="bg-black border border-white rounded-xl p-8">
               {renderTabContent()}
             </div>
           </div>
