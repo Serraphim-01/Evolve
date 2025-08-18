@@ -36,7 +36,7 @@ export const Signup = () => {
           <div className="bg-hacker-green rounded-lg p-3 w-12 h-12 mx-auto mb-4">
             <Code className="h-6 w-6 text-black" />
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">Join CodeQuest</h1>
+          <h1 className="text-3xl font-bold text-white mb-2">Join Evolve</h1>
           <p className="text-white">Start your coding adventure today</p>
         </div>
 

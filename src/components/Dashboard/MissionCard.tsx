@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Mission } from '../../types';
 import { Code, Users, Award } from 'lucide-react';
 
@@ -58,9 +59,11 @@ export const MissionCard: React.FC<MissionCardProps> = ({ mission }) => {
             <span>{mission.xpReward} XP</span>
           </div>
         </div>
-        <button className="bg-hacker-green text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-80 transition-colors">
-          Start Mission
-        </button>
+        <Link to={`/mission/${mission.id}`}>
+          <button className="bg-hacker-green text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-opacity-80 transition-colors">
+            Start Mission
+          </button>
+        </Link>
       </div>
     </div>
   );

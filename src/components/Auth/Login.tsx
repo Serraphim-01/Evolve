@@ -74,12 +74,19 @@ export const Login = () => {
           </button>
         </form>
 
-        <p className="text-center text-white mt-6">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-hacker-green hover:underline">
-            Sign up
-          </Link>
-        </p>
+        <div className="text-center text-white mt-6">
+          <p>
+            Don't have an account?{' '}
+            <Link to="/signup" className="text-hacker-green hover:underline">
+              Sign up
+            </Link>
+          </p>
+          <p className="mt-2">
+            <Link to="#" className="text-sm text-white hover:underline">
+              Forgot Password?
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

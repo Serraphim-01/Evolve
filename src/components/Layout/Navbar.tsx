@@ -32,7 +32,7 @@ export const Navbar = () => {
           <Code className="h-6 w-6 text-black" />
         </div>
         <div>
-          <h1 className="text-white font-bold text-xl">CodeQuest</h1>
+          <h1 className="text-white font-bold text-xl">Evolve</h1>
           <p className="text-white text-sm">Learn by doing</p>
         </div>
       </div>
