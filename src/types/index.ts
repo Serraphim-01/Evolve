@@ -21,6 +21,7 @@ export interface Mission {
   completions: number;
   tags: string[];
   createdAt: string;
+  type: 'test' | 'debug';
 }
 
 export interface Achievement {

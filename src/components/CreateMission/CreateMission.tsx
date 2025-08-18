@@ -11,6 +11,7 @@ export const CreateMission = () => {
     difficulty: 'beginner',
     xpReward: 100,
     tags: '',
+    type: 'test' as 'test' | 'debug',
   });
 
   const languages = [
@@ -110,6 +111,36 @@ export const CreateMission = () => {
                       <div className="text-xs">{xp} XP</div>
                     </button>
                   ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-white mb-2">
+                  Mission Type
+                </label>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange('type', 'test')}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      formData.type === 'test'
+                        ? 'border-hacker-green bg-hacker-green text-black'
+                        : 'border-white bg-black text-white hover:border-hacker-green'
+                    }`}
+                  >
+                    Proficiency Test
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleInputChange('type', 'debug')}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      formData.type === 'debug'
+                        ? 'border-hacker-green bg-hacker-green text-black'
+                        : 'border-white bg-black text-white hover:border-hacker-green'
+                    }`}
+                  >
+                    Debugging Challenge
+                  </button>
                 </div>
               </div>
 

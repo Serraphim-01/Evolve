@@ -16,7 +16,8 @@ const mockMissions: Mission[] = [
     createdBy: 'TreeMaster',
     completions: 234,
     tags: ['algorithms', 'trees', 'recursion'],
-    createdAt: '2024-01-20'
+    createdAt: '2024-01-20',
+    type: 'test'
   },
   {
     id: '2',
@@ -28,7 +29,8 @@ const mockMissions: Mission[] = [
     createdBy: 'APIGuru',
     completions: 456,
     tags: ['api', 'backend', 'flask'],
-    createdAt: '2024-01-19'
+    createdAt: '2024-01-19',
+    type: 'test'
   },
   {
     id: '3',
@@ -40,7 +42,8 @@ const mockMissions: Mission[] = [
     createdBy: 'DPChampion',
     completions: 89,
     tags: ['dynamic-programming', 'optimization', 'algorithms'],
-    createdAt: '2024-01-18'
+    createdAt: '2024-01-18',
+    type: 'debug'
   }
 ];
 

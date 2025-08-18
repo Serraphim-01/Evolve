@@ -24,8 +24,13 @@ export const MissionCard: React.FC<MissionCardProps> = ({ mission }) => {
           <Code className="h-5 w-5 text-white" />
           <span className="text-sm font-medium text-white">{mission.language}</span>
         </div>
-        <div className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(mission.difficulty)}`}>
-          {mission.difficulty}
+        <div className="flex items-center space-x-2">
+          <div className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(mission.difficulty)}`}>
+            {mission.difficulty}
+          </div>
+          <div className="px-3 py-1 rounded-full text-xs font-medium text-white bg-blue-500/20">
+            {mission.type}
+          </div>
         </div>
       </div>
 
