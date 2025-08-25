@@ -36,12 +36,10 @@ const AppRoutes = () => {
           </PublicRoute>
         } />
         <Route path="/dashboard" element={
-          <ProtectedRoute>
-            <div className="flex">
-              <Navbar />
-              <Dashboard />
-            </div>
-          </ProtectedRoute>
+          <div className="flex">
+            <Navbar />
+            <Dashboard />
+          </div>
         } />
         <Route path="/profile" element={
           <ProtectedRoute>
