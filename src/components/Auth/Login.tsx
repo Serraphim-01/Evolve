@@ -1,25 +1,28 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
-import { Mail, Lock, Eye, EyeOff, Code } from 'lucide-react';
+import { Mail, Code, KeyRound, Zap } from 'lucide-react';
 
 export const Login = () => {
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handlePasskeySubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      await login(email, password);
+      await login(email);
     } catch (error) {
       console.error('Login failed:', error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleMagicLinkSubmit = async () => {
+    // TODO: Implement magic link flow
+    alert('Magic link functionality not yet implemented.');
   };
 
   return (
@@ -30,10 +33,10 @@ export const Login = () => {
             <Code className="h-6 w-6 text-black" />
           </div>
           <h1 className="text-3xl font-bold text-white mb-2">Welcome Back</h1>
-          <p className="text-white">Continue your coding journey</p>
+          <p className="text-white">Sign in to continue your journey</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handlePasskeySubmit} className="space-y-4">
           <div className="relative">
             <Mail className="absolute left-3 top-3.5 h-5 w-5 text-white" />
             <input
@@ -46,47 +49,37 @@ export const Login = () => {
             />
           </div>
 
-          <div className="relative">
-            <Lock className="absolute left-3 top-3.5 h-5 w-5 text-white" />
-            <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full pl-10 pr-12 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white placeholder-white"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-3.5 text-white hover:text-hacker-green transition-colors"
-            >
-              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-            </button>
-          </div>
-
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-hacker-green text-black py-3 rounded-lg font-semibold hover:bg-opacity-80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-hacker-green text-black py-3 rounded-lg font-semibold hover:bg-opacity-80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
           >
-            {loading ? 'Signing In...' : 'Sign In'}
+            <KeyRound className="h-5 w-5" />
+            <span>{loading ? 'Signing In...' : 'Sign in with Passkey'}</span>
           </button>
         </form>
 
-        <div className="text-center text-white mt-6">
-          <p>
-            Don't have an account?{' '}
-            <Link to="/signup" className="text-hacker-green hover:underline">
-              Sign up
-            </Link>
-          </p>
-          <p className="mt-2">
-            <Link to="#" className="text-sm text-white hover:underline">
-              Forgot Password?
-            </Link>
-          </p>
+        <div className="relative flex items-center my-6">
+          <div className="flex-grow border-t border-gray-600"></div>
+          <span className="flex-shrink mx-4 text-gray-400">or</span>
+          <div className="flex-grow border-t border-gray-600"></div>
         </div>
+
+        <button
+          onClick={handleMagicLinkSubmit}
+          disabled={loading}
+          className="w-full bg-gray-700 text-white py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
+        >
+          <Zap className="h-5 w-5" />
+          <span>Sign in with Email Magic Link</span>
+        </button>
+
+        <p className="text-center text-white mt-8">
+          Don't have an account?{' '}
+          <Link to="/signup" className="text-hacker-green hover:underline">
+            Create one now
+          </Link>
+        </p>
       </div>
     </div>
   );
