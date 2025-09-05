@@ -23,9 +23,26 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+import { useEffect } from 'react';
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
+    const storedAuth = localStorage.getItem('isAuthenticated');
+    return storedAuth ? JSON.parse(storedAuth) : false;
+  });
+
+  useEffect(() => {
+    localStorage.setItem('isAuthenticated', JSON.stringify(isAuthenticated));
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('user');
+    }
+  }, [isAuthenticated, user]);
 
   const signup = async (username: string, email: string) => {
     try {
