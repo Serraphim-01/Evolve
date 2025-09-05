@@ -58,8 +58,19 @@ export const getRegistrationOptions = async (
     },
   };
 
-  // Temporarily store the challenge
-  users[email] = { ...users[email], challenge };
+  // Temporarily store the challenge - FIXED: Create new object instead of spreading
+  users[email] = {
+    id: email,
+    email,
+    username,
+    level: 1,
+    xp: 0,
+    avatar: `https://i.pravatar.cc/150?u=${email}`,
+    joinDate: new Date().toISOString(),
+    completedMissions: 0,
+    createdMissions: 0,
+    challenge
+  };
 
   return options;
 };
@@ -108,7 +119,8 @@ export const verifyRegistration = async (
 export const getAuthenticationOptions = async (
   email: string
 ): Promise<PublicKeyCredentialRequestOptionsJSON> => {
-  if (!users[email]) {
+  const user = users[email];
+  if (!user) {
     throw new Error(`User with email ${email} not found.`);
   }
 
@@ -122,8 +134,11 @@ export const getAuthenticationOptions = async (
     userVerification: 'preferred',
   };
 
-  // Temporarily store the challenge
-  users[email] = { ...users[email], challenge };
+  // Temporarily store the challenge - FIXED: Use direct assignment
+  users[email] = {
+    ...user,
+    challenge
+  };
 
   return options;
 };
@@ -147,10 +162,49 @@ export const verifyAuthentication = async (
   // In a real backend, we'd verify the signature here.
   // For our mock, we'll assume it's valid.
 
-  // Clear the challenge
-  delete users[user.email].challenge;
+  // Clear the challenge by creating a new object without it
+  const { challenge, ...userWithoutChallenge } = users[user.email];
+  users[user.email] = userWithoutChallenge;
 
-  console.log('Authenticated user:', user);
+  console.log('Authenticated user:', userWithoutChallenge);
 
-  return users[user.email];
+  return userWithoutChallenge;
+};
+
+export const clearOtherUsersAndTransferProgress = async (
+  currentUserEmail: string
+): Promise<User | null> => {
+  const currentUser = users[currentUserEmail];
+  if (!currentUser) {
+    throw new Error('Current user not found.');
+  }
+
+  let totalXp = 0;
+  let totalCompletedMissions = 0;
+  let totalCreatedMissions = 0;
+
+  for (const email in users) {
+    if (email !== currentUserEmail) {
+      const user = users[email];
+      totalXp += user.xp;
+      totalCompletedMissions += user.completedMissions;
+      totalCreatedMissions += user.createdMissions;
+      delete users[email];
+      delete credentials[email];
+    }
+  }
+
+  currentUser.xp += totalXp;
+  currentUser.completedMissions += totalCompletedMissions;
+  currentUser.createdMissions += totalCreatedMissions;
+
+  // Simple level up logic
+  while (currentUser.xp >= 1000) {
+    currentUser.level += 1;
+    currentUser.xp -= 1000;
+  }
+
+  users[currentUserEmail] = currentUser;
+
+  return currentUser;
 };

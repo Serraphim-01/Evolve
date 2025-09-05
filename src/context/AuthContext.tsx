@@ -9,7 +9,8 @@ import {
   verifyRegistration,
   getAuthenticationOptions,
   verifyAuthentication,
-} from '../mock-backend'; // We will create this file in the next step
+  clearOtherUsersAndTransferProgress,
+} from '../mock-backend';
 
 interface AuthContextType {
   user: User | null;
@@ -17,6 +18,7 @@ interface AuthContextType {
   login: (email: string) => Promise<void>;
   signup: (username: string, email: string) => Promise<void>;
   logout: () => void;
+  clearOtherUsers: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -28,7 +30,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signup = async (username: string, email: string) => {
     try {
       const options = await getRegistrationOptions(username, email);
-      const registrationResponse = await startRegistration(options);
+      // FIXED: Wrap options in an object with optionsJSON property
+      const registrationResponse = await startRegistration({
+        optionsJSON: options
+      });
       const newUser = await verifyRegistration(registrationResponse, { username, email });
 
       if (newUser) {
@@ -44,7 +49,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string) => {
     try {
       const options = await getAuthenticationOptions(email);
-      const authenticationResponse = await startAuthentication(options);
+      // FIXED: Wrap options in an object with optionsJSON property
+      const authenticationResponse = await startAuthentication({
+        optionsJSON: options
+      });
       const authenticatedUser = await verifyAuthentication(authenticationResponse);
 
       if (authenticatedUser) {
@@ -65,8 +73,22 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     // In a real app, you might also want to clear any session info from the backend
   };
 
+  const clearOtherUsers = async () => {
+    if (user) {
+      try {
+        const updatedUser = await clearOtherUsersAndTransferProgress(user.email);
+        if (updatedUser) {
+          setUser(updatedUser);
+        }
+      } catch (error) {
+        console.error('Failed to clear other users:', error);
+        throw error;
+      }
+    }
+  };
+
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, login, signup, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, login, signup, logout, clearOtherUsers }}>
       {children}
     </AuthContext.Provider>
   );

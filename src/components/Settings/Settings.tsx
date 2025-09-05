@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { 
-  User, 
+  User,
+  Trash2,
   Bell, 
   Shield, 
   Palette, 
@@ -14,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const Settings = () => {
-  const { user } = useAuth();
+  const { user, clearOtherUsers } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
   const [formData, setFormData] = useState({
     username: user?.username || '',
@@ -216,6 +217,24 @@ export const Settings = () => {
               <Save className="h-5 w-5" />
               <span>Update Password</span>
             </button>
+
+            <div className="mt-8 pt-6 border-t border-gray-700">
+              <h4 className="text-lg font-semibold text-red-500 mb-2">Danger Zone</h4>
+              <p className="text-white mb-4">
+                This action will permanently delete all other user accounts and transfer their progress to you. This cannot be undone.
+              </p>
+              <button
+                onClick={async () => {
+                  if (window.confirm('Are you sure you want to delete all other users and transfer their progress? This action is irreversible.')) {
+                    await clearOtherUsers();
+                  }
+                }}
+                className="flex items-center space-x-2 bg-red-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-red-700 transition-colors"
+              >
+                <Trash2 className="h-5 w-5" />
+                <span>Clear All Other Users</span>
+              </button>
+            </div>
           </div>
         );
 
