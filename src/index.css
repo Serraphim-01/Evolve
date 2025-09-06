@@ -29,26 +29,52 @@ body {
   background-color: #000;
   border-right: 1px solid #00FF00;
   padding: 20px;
+  transition: width 0.3s ease;
+  position: relative;
 }
 
-.sidenav h2 {
-  color: #00FF00;
-  border-bottom: 1px solid #00FF00;
-  padding-bottom: 10px;
+.sidenav.collapsed {
+  width: 60px;
+}
+
+.sidenav-toggle {
+  position: absolute;
+  top: 20px;
+  right: -15px;
+  background-color: #00FF00;
+  color: #000;
+  border: 1px solid #00FF00;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .sidenav ul {
   list-style: none;
   padding: 0;
+  margin-top: 60px;
 }
 
 .sidenav li a {
   color: #fff;
   text-decoration: none;
-  display: block;
+  display: flex;
+  align-items: center;
   padding: 10px;
   margin: 5px 0;
   border: 1px solid transparent;
+}
+
+.sidenav.collapsed li a {
+  justify-content: center;
+}
+
+.sidenav li a span {
+  margin-left: 10px;
 }
 
 .sidenav li a:hover, .sidenav li a.active {
