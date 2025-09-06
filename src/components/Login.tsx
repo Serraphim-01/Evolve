@@ -18,7 +18,10 @@ export const Login = () => {
         timeout: 60000,
       };
 
-      const authenticationResponse = await startAuthentication(options);
+      // Wrap the options in an object with optionsJSON property
+      const authenticationResponse = await startAuthentication({
+        optionsJSON: options
+      });
       console.log('Authentication response:', authenticationResponse);
       login();
       navigate('/dashboard');

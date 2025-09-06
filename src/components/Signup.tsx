@@ -27,7 +27,10 @@ export const Signup = () => {
         attestation: 'direct' as const,
       };
 
-      const registrationResponse = await startRegistration(options);
+      // Wrap the options in an object with optionsJSON property
+      const registrationResponse = await startRegistration({
+        optionsJSON: options
+      });
       console.log('Registration response:', registrationResponse);
       alert('Passkey registration successful! Please proceed to login.');
       navigate('/login');
