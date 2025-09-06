@@ -15,6 +15,99 @@ body {
   border: 1px solid #00FF00;
   padding: 40px;
   text-align: center;
+  width: 80%;
+}
+
+.dashboard-layout {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
+.sidenav {
+  width: 200px;
+  background-color: #000;
+  border-right: 1px solid #00FF00;
+  padding: 20px;
+}
+
+.sidenav h2 {
+  color: #00FF00;
+  border-bottom: 1px solid #00FF00;
+  padding-bottom: 10px;
+}
+
+.sidenav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidenav li a {
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid transparent;
+}
+
+.sidenav li a:hover, .sidenav li a.active {
+  border-color: #00FF00;
+  color: #00FF00;
+}
+
+.main-content {
+  flex-grow: 1;
+  padding: 20px;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #000;
+  border: 1px solid #00FF00;
+  padding: 20px;
+  position: relative;
+  width: 500px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  color: #00FF00;
+}
+
+form textarea, form select {
+  width: 100%;
+  background-color: #000;
+  border: 1px solid #00FF00;
+  color: #fff;
+  padding: 10px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 h1 {
