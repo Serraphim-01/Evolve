@@ -2,6 +2,7 @@ body {
   background-color: #000;
   color: #fff;
   font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
 }
 
 #root {
@@ -35,6 +36,18 @@ body {
 
 .sidenav.collapsed {
   width: 60px;
+}
+
+.app-name {
+  font-size: 24px;
+  font-weight: bold;
+  color: #00FF00;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.app-name-volve {
+  font-family: sans-serif;
 }
 
 .sidenav-toggle {
@@ -145,11 +158,25 @@ form textarea, form select {
 .mission-card {
   border: 1px solid #00FF00;
   padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.mission-card h3 {
+.mission-card:hover {
+  background-color: #002b00;
+  border-color: #fff;
+}
+
+.mission-title {
   color: #00FF00;
   margin-top: 0;
+  font-size: 18px;
+  border-bottom: 1px solid #005200;
+  padding-bottom: 10px;
+}
+
+.mission-details p {
+  margin: 5px 0;
 }
 
 .mission-card-footer {
@@ -177,9 +204,18 @@ form textarea, form select {
   margin-bottom: 20px;
 }
 
-.filters button.active {
-  background-color: #00FF00;
-  color: #000;
+.filters {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.filters select, .filters input {
+  background-color: #000;
+  color: #00FF00;
+  border: 1px solid #00FF00;
+  padding: 5px 10px;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .mission-card-link {
@@ -201,6 +237,37 @@ form textarea, form select {
   flex: 1;
   border: 1px solid #00FF00;
   padding: 20px;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.matrix-bg {
+  background-color: #000;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.matrix-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8)),
+              repeating-linear-gradient(0deg, transparent, transparent 2px, #00FF00 2px, #00FF00 4px);
+  animation: matrix-scroll 0.5s linear infinite;
+  z-index: -1;
+}
+
+@keyframes matrix-scroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
 }
 
 h1 {

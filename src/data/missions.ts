@@ -5,6 +5,9 @@ export interface Mission {
   difficulty: 'Easy' | 'Medium' | 'Hard';
   exp: number;
   tags: string[];
+  language: string;
+  expectedTimeToSolve: string;
+  recommendedLevel: number;
 }
 
 export const missions: Mission[] = [
@@ -15,6 +18,9 @@ export const missions: Mission[] = [
     difficulty: 'Easy',
     exp: 50,
     tags: ['string', 'algorithm'],
+    language: 'JavaScript',
+    expectedTimeToSolve: '15 minutes',
+    recommendedLevel: 1,
   },
   {
     id: 2,
@@ -23,6 +29,9 @@ export const missions: Mission[] = [
     difficulty: 'Easy',
     exp: 50,
     tags: ['loops', 'conditionals'],
+    language: 'Python',
+    expectedTimeToSolve: '10 minutes',
+    recommendedLevel: 1,
   },
   {
     id: 3,
@@ -31,5 +40,8 @@ export const missions: Mission[] = [
     difficulty: 'Medium',
     exp: 100,
     tags: ['string', 'algorithm'],
+    language: 'JavaScript',
+    expectedTimeToSolve: '20 minutes',
+    recommendedLevel: 2,
   },
 ];

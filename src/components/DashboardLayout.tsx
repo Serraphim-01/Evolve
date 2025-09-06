@@ -11,6 +11,9 @@ const Sidenav = ({ isCollapsed, toggleSidenav }: { isCollapsed: boolean, toggleS
 
   return (
     <div className={`sidenav ${isCollapsed ? 'collapsed' : ''}`}>
+      <div className="app-name">
+        <span>£</span><span className="app-name-volve">volve</span>
+      </div>
       <button onClick={toggleSidenav} className="sidenav-toggle">
         {isCollapsed ? <ChevronRight /> : <ChevronLeft />}
       </button>

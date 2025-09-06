@@ -1,18 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { missions } from '../data/missions';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism.css'; //Example style, you can use another
+import 'prismjs/themes/prism.css';
 
 export const ChallengeSolver = () => {
   const { id } = useParams<{ id: string }>();
   const mission = missions.find((m) => m.id === parseInt(id || ''));
 
-  const [code, setCode] = useState('// your code here');
+  const [code, setCode] = useState('');
   const [testResult, setTestResult] = useState('');
+
+  useEffect(() => {
+    if (mission) {
+      const instructions = `/*\n${mission.title}\n\n${mission.description}\n*/`;
+      setCode(instructions);
+    }
+  }, [mission]);
 
   if (!mission) {
     return <div>Challenge not found!</div>;
@@ -22,7 +29,6 @@ export const ChallengeSolver = () => {
     setTestResult('Running tests...');
     // Simulate test execution
     setTimeout(() => {
-      // In a real app, you would run the code against the test cases
       const isCorrect = Math.random() > 0.5; // Randomly pass or fail
       if (isCorrect) {
         setTestResult(`Tests passed! You earned ${mission.exp} EXP.`);
@@ -33,9 +39,7 @@ export const ChallengeSolver = () => {
   };
 
   return (
-    <div className="challenge-solver">
-      <h1>{mission.title}</h1>
-      <p>{mission.description}</p>
+    <div className="challenge-solver matrix-bg">
       <div className="solver-layout">
         <div className="solution-area">
           <h2>Solution</h2>
@@ -48,7 +52,7 @@ export const ChallengeSolver = () => {
               fontFamily: '"Fira code", "Fira Mono", monospace',
               fontSize: 12,
               border: '1px solid #00FF00',
-              backgroundColor: '#000',
+              backgroundColor: 'rgba(0, 0, 0, 0.8)',
               color: '#fff',
             }}
           />

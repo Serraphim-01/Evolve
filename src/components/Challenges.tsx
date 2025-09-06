@@ -1,42 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ChallengeTypeModal } from './ChallengeTypeModal';
-import { ChallengeDetailsModal } from './ChallengeDetailsModal';
+import { ChallengeCreationDetailsModal } from './ChallengeCreationDetailsModal';
 import { ProcessingModal } from './ProcessingModal';
 import { ChallengePreview } from './ChallengePreview';
 import { missions, Mission } from '../data/missions';
 import { MissionCard } from './MissionCard';
+import { ChallengeDetailsModal } from './ChallengeDetailsModal';
 
 export const Challenges = () => {
+  const navigate = useNavigate();
+
+  // State for creating challenges
   const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+  const [isCreationDetailsModalOpen, setIsCreationDetailsModalOpen] = useState(false);
   const [isProcessingModalOpen, setIsProcessingModalOpen] = useState(false);
   const [isPreviewModalOpen, setIsPreviewModalOpen] = useState(false);
 
-  const [challenge, setChallenge] = useState({
+  const [newChallenge, setNewChallenge] = useState({
     type: '',
     question: '',
     language: '',
     testCase: '',
   });
 
-  const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Easy' | 'Medium' | 'Hard'>('All');
+  // State for viewing challenge details
+  const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
+  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+
+  // State for filters
+  const [filterType, setFilterType] = useState('All');
+  const [difficultyFilter, setDifficultyFilter] = useState('Easy');
+  const [languageFilter, setLanguageFilter] = useState('JavaScript');
+  const [tagFilter, setTagFilter] = useState('');
+  const [levelFilter, setLevelFilter] = useState('1-2');
+
+  const availableLanguages = useMemo(() => [...new Set(missions.map(m => m.language))], []);
+  const availableTags = useMemo(() => [...new Set(missions.flatMap(m => m.tags))], []);
 
   const handleCreateChallengeClick = () => {
     setIsTypeModalOpen(true);
   };
 
   const handleTypeSelect = (type: string) => {
-    setChallenge((prev) => ({ ...prev, type }));
+    setNewChallenge((prev) => ({ ...prev, type }));
     setIsTypeModalOpen(false);
-    setIsDetailsModalOpen(true);
+    setIsCreationDetailsModalOpen(true);
   };
 
-  const handleDetailsSubmit = (details: { question: string; language: string; testCase: string }) => {
-    setChallenge((prev) => ({ ...prev, ...details }));
-    setIsDetailsModalOpen(false);
+  const handleCreationDetailsSubmit = (details: { question: string; language: string; testCase: string }) => {
+    setNewChallenge((prev) => ({ ...prev, ...details }));
+    setIsCreationDetailsModalOpen(false);
     setIsProcessingModalOpen(true);
 
-    // Simulate AI review processing time
     setTimeout(() => {
       setIsProcessingModalOpen(false);
       setIsPreviewModalOpen(true);
@@ -44,14 +60,33 @@ export const Challenges = () => {
   };
 
   const handlePreviewSubmit = () => {
-    console.log('Challenge created:', challenge);
+    console.log('Challenge created:', newChallenge);
     setIsPreviewModalOpen(false);
     alert('Challenge created successfully!');
   };
 
-  const filteredMissions = difficultyFilter === 'All'
-    ? missions
-    : missions.filter((mission) => mission.difficulty === difficultyFilter);
+  const handleMissionCardClick = (mission: Mission) => {
+    setSelectedMission(mission);
+    setIsDetailsModalOpen(true);
+  };
+
+  const handleSolveChallenge = () => {
+    if (selectedMission) {
+      navigate(`/challenges/${selectedMission.id}`);
+    }
+  };
+
+  const filteredMissions = missions.filter(mission => {
+    if (filterType === 'All') return true;
+    if (filterType === 'Difficulty') return mission.difficulty === difficultyFilter;
+    if (filterType === 'Language') return mission.language === languageFilter;
+    if (filterType === 'Tag') return mission.tags.includes(tagFilter);
+    if (filterType === 'Recommended Level') {
+      const [min, max] = levelFilter.split('-').map(Number);
+      return mission.recommendedLevel >= min && mission.recommendedLevel <= max;
+    }
+    return true;
+  });
 
   return (
     <div>
@@ -61,39 +96,56 @@ export const Challenges = () => {
       </div>
 
       <div className="filters">
-        <span>Filter by difficulty:</span>
-        <button onClick={() => setDifficultyFilter('All')} className={difficultyFilter === 'All' ? 'active' : ''}>All</button>
-        <button onClick={() => setDifficultyFilter('Easy')} className={difficultyFilter === 'Easy' ? 'active' : ''}>Easy</button>
-        <button onClick={() => setDifficultyFilter('Medium')} className={difficultyFilter === 'Medium' ? 'active' : ''}>Medium</button>
-        <button onClick={() => setDifficultyFilter('Hard')} className={difficultyFilter === 'Hard' ? 'active' : ''}>Hard</button>
+        <select value={filterType} onChange={e => setFilterType(e.target.value)}>
+          <option>All</option>
+          <option>Difficulty</option>
+          <option>Language</option>
+          <option>Tag</option>
+          <option>Recommended Level</option>
+        </select>
+
+        {filterType === 'Difficulty' && (
+          <select value={difficultyFilter} onChange={e => setDifficultyFilter(e.target.value as 'Easy' | 'Medium' | 'Hard')}>
+            <option>Easy</option>
+            <option>Medium</option>
+            <option>Hard</option>
+          </select>
+        )}
+        {filterType === 'Language' && (
+          <select value={languageFilter} onChange={e => setLanguageFilter(e.target.value)}>
+            {availableLanguages.map(lang => <option key={lang}>{lang}</option>)}
+          </select>
+        )}
+        {filterType === 'Tag' && (
+          <select value={tagFilter} onChange={e => setTagFilter(e.target.value)}>
+            <option value="">All Tags</option>
+            {availableTags.map(tag => <option key={tag}>{tag}</option>)}
+          </select>
+        )}
+        {filterType === 'Recommended Level' && (
+          <select value={levelFilter} onChange={e => setLevelFilter(e.target.value)}>
+            <option>1-2</option>
+            <option>3-5</option>
+            <option>6-8</option>
+            <option>9-10</option>
+          </select>
+        )}
       </div>
 
       <div className="missions-grid">
         {filteredMissions.map((mission) => (
-          <MissionCard key={mission.id} mission={mission} />
+          <MissionCard key={mission.id} mission={mission} onClick={() => handleMissionCardClick(mission)} />
         ))}
       </div>
 
-      <ChallengeTypeModal
-        isOpen={isTypeModalOpen}
-        onClose={() => setIsTypeModalOpen(false)}
-        onSelect={handleTypeSelect}
-      />
-
-      <ChallengeDetailsModal
-        isOpen={isDetailsModalOpen}
-        onClose={() => setIsDetailsModalOpen(false)}
-        onSubmit={handleDetailsSubmit}
-      />
-
+      {/* Modals for creating a challenge */}
+      <ChallengeTypeModal isOpen={isTypeModalOpen} onClose={() => setIsTypeModalOpen(false)} onSelect={handleTypeSelect} />
+      <ChallengeCreationDetailsModal isOpen={isCreationDetailsModalOpen} onClose={() => setIsCreationDetailsModalOpen(false)} onSubmit={handleCreationDetailsSubmit} />
       <ProcessingModal isOpen={isProcessingModalOpen} />
+      <ChallengePreview isOpen={isPreviewModalOpen} onClose={() => setIsPreviewModalOpen(false)} onSubmit={handlePreviewSubmit} challenge={newChallenge} />
 
-      <ChallengePreview
-        isOpen={isPreviewModalOpen}
-        onClose={() => setIsPreviewModalOpen(false)}
-        onSubmit={handlePreviewSubmit}
-        challenge={challenge}
-      />
+      {/* Modal for viewing challenge details */}
+      <ChallengeDetailsModal isOpen={isDetailsModalOpen} onClose={() => setIsDetailsModalOpen(false)} onSolve={handleSolveChallenge} mission={selectedMission} />
     </div>
   );
 };
