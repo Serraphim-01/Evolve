@@ -5,6 +5,7 @@ import { Login } from './components/Login';
 import { Signup } from './components/Signup';
 import { Dashboard } from './components/Dashboard';
 import { Challenges } from './components/Challenges';
+import { ChallengeSolver } from './components/ChallengeSolver';
 import { DashboardLayout } from './components/DashboardLayout';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
@@ -34,6 +35,16 @@ const AppRoutes = () => {
             <ProtectedRoute>
               <DashboardLayout>
                 <Challenges />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/challenges/:id"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ChallengeSolver />
               </DashboardLayout>
             </ProtectedRoute>
           }

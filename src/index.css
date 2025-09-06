@@ -41,10 +41,9 @@ body {
   position: absolute;
   top: 20px;
   right: -15px;
-  background-color: #00FF00;
-  color: #000;
-  border: 1px solid #00FF00;
-  border-radius: 5px;
+  background-color: transparent;
+  color: #00FF00;
+  border: none;
   width: 30px;
   height: 30px;
   display: flex;
@@ -138,7 +137,7 @@ form textarea, form select {
 
 .missions-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
   margin-top: 20px;
 }
@@ -172,6 +171,36 @@ form textarea, form select {
   border-radius: 5px;
   font-size: 12px;
   margin-right: 5px;
+}
+
+.filters {
+  margin-bottom: 20px;
+}
+
+.filters button.active {
+  background-color: #00FF00;
+  color: #000;
+}
+
+.mission-card-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.challenge-solver {
+  width: 100%;
+}
+
+.solver-layout {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.solution-area, .testing-area {
+  flex: 1;
+  border: 1px solid #00FF00;
+  padding: 20px;
 }
 
 h1 {

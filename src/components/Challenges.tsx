@@ -3,7 +3,7 @@ import { ChallengeTypeModal } from './ChallengeTypeModal';
 import { ChallengeDetailsModal } from './ChallengeDetailsModal';
 import { ProcessingModal } from './ProcessingModal';
 import { ChallengePreview } from './ChallengePreview';
-import { missions } from '../data/missions';
+import { missions, Mission } from '../data/missions';
 import { MissionCard } from './MissionCard';
 
 export const Challenges = () => {
@@ -18,6 +18,8 @@ export const Challenges = () => {
     language: '',
     testCase: '',
   });
+
+  const [difficultyFilter, setDifficultyFilter] = useState<'All' | 'Easy' | 'Medium' | 'Hard'>('All');
 
   const handleCreateChallengeClick = () => {
     setIsTypeModalOpen(true);
@@ -47,6 +49,10 @@ export const Challenges = () => {
     alert('Challenge created successfully!');
   };
 
+  const filteredMissions = difficultyFilter === 'All'
+    ? missions
+    : missions.filter((mission) => mission.difficulty === difficultyFilter);
+
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -54,8 +60,16 @@ export const Challenges = () => {
         <button onClick={handleCreateChallengeClick}>Create Challenge</button>
       </div>
 
+      <div className="filters">
+        <span>Filter by difficulty:</span>
+        <button onClick={() => setDifficultyFilter('All')} className={difficultyFilter === 'All' ? 'active' : ''}>All</button>
+        <button onClick={() => setDifficultyFilter('Easy')} className={difficultyFilter === 'Easy' ? 'active' : ''}>Easy</button>
+        <button onClick={() => setDifficultyFilter('Medium')} className={difficultyFilter === 'Medium' ? 'active' : ''}>Medium</button>
+        <button onClick={() => setDifficultyFilter('Hard')} className={difficultyFilter === 'Hard' ? 'active' : ''}>Hard</button>
+      </div>
+
       <div className="missions-grid">
-        {missions.map((mission) => (
+        {filteredMissions.map((mission) => (
           <MissionCard key={mission.id} mission={mission} />
         ))}
       </div>
