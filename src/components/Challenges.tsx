@@ -3,6 +3,8 @@ import { ChallengeTypeModal } from './ChallengeTypeModal';
 import { ChallengeDetailsModal } from './ChallengeDetailsModal';
 import { ProcessingModal } from './ProcessingModal';
 import { ChallengePreview } from './ChallengePreview';
+import { missions } from '../data/missions';
+import { MissionCard } from './MissionCard';
 
 export const Challenges = () => {
   const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
@@ -47,8 +49,16 @@ export const Challenges = () => {
 
   return (
     <div>
-      <h1>Challenges</h1>
-      <button onClick={handleCreateChallengeClick}>Create Challenge</button>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1>Challenges</h1>
+        <button onClick={handleCreateChallengeClick}>Create Challenge</button>
+      </div>
+
+      <div className="missions-grid">
+        {missions.map((mission) => (
+          <MissionCard key={mission.id} mission={mission} />
+        ))}
+      </div>
 
       <ChallengeTypeModal
         isOpen={isTypeModalOpen}
