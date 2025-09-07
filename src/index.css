@@ -225,21 +225,22 @@ form textarea, form select {
 
 .challenge-solver {
   width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .solver-layout {
   display: flex;
+  flex-direction: column;
   gap: 20px;
   margin-top: 20px;
 }
 
-.solution-area {
-  flex: 2;
-}
-
-.testing-area {
-  flex: 1;
-  border-left: 1px solid #00FF00;
+.solution-area, .testing-area {
+  border: 1px solid #00FF00;
   padding: 20px;
 }
 
