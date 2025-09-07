@@ -4,6 +4,8 @@ import { MissionCard } from './MissionCard';
 import { StatsCard } from './StatsCard';
 import { Mission } from '../../types';
 import { Trophy, Target, Users, Clock } from 'lucide-react';
+import { LineChartComponent } from './LineChart';
+import { PieChartComponent } from './PieChart';
 
 const mockMissions: Mission[] = [
   {
@@ -78,6 +80,11 @@ export const Dashboard = () => {
           {stats.map((stat, index) => (
             <StatsCard key={index} {...stat} />
           ))}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+          <LineChartComponent />
+          <PieChartComponent />
         </div>
 
         <div className="bg-black rounded-xl p-6 mb-8">
