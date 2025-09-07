@@ -3,9 +3,17 @@ import { useAuth } from '../../context/AuthContext';
 import { MissionCard } from './MissionCard';
 import { StatsCard } from './StatsCard';
 import { Mission } from '../../types';
+<<<<<<< HEAD
 import { Trophy, Target, Users, Clock } from 'lucide-react';
 import { LineChartComponent } from './LineChart';
 import { PieChartComponent } from './PieChart';
+=======
+import { Trophy, Users, Clock } from 'lucide-react';
+import { LineChartComponent } from './LineChart';
+import { PieChartComponent } from './PieChart';
+import { TerminalLog } from './TerminalLog';
+import './Hacker.css';
+>>>>>>> 70a357ef675dac42486f5817540a1d24a9bbc3dc
 
 const mockMissions: Mission[] = [
   {
@@ -61,27 +69,27 @@ export const Dashboard = () => {
 
   const stats = [
     { title: 'Missions Completed', value: user?.completedMissions || 0, icon: Trophy, color: 'text-hacker-green' },
-    { title: 'Current Level', value: user?.level || 0, icon: Target, color: 'text-hacker-green' },
     { title: 'Total XP', value: user?.xp || 0, icon: Users, color: 'text-hacker-green' },
     { title: 'Missions Created', value: user?.createdMissions || 0, icon: Clock, color: 'text-hacker-green' }
   ];
 
   return (
-    <div className="flex-1 bg-black min-h-screen p-8">
+    <div className="flex-1 bg-black min-h-screen p-8 font-mono">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="glitch" data-text={`Welcome back, ${user?.username}!`}>
             Welcome back, {user?.username}!
           </h1>
-          <p className="text-white">Ready to tackle some new challenges?</p>
+          <p className="text-hacker-green text-lg">&gt; Ready to tackle some new challenges?</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {stats.map((stat, index) => (
             <StatsCard key={index} {...stat} />
           ))}
         </div>
 
+<<<<<<< HEAD
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
           <LineChartComponent />
           <PieChartComponent />
@@ -107,13 +115,52 @@ export const Dashboard = () => {
                 </button>
               ))}
             </div>
+=======
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
+          <div className="lg:col-span-3">
+            <LineChartComponent />
+>>>>>>> 70a357ef675dac42486f5817540a1d24a9bbc3dc
           </div>
+          <div className="lg:col-span-2">
+            <PieChartComponent />
+          </div>
+        </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-            {filteredMissions.map((mission) => (
-              <MissionCard key={mission.id} mission={mission} />
-            ))}
-          </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <div className="bg-black rounded-xl p-6 border border-hacker-green">
+                <h2 className="text-xl font-semibold text-hacker-green mb-4">
+                    System Log
+                </h2>
+                <TerminalLog />
+            </div>
+            <div className="bg-black rounded-xl p-6 border border-hacker-green">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                <h2 className="text-xl font-semibold text-hacker-green mb-4 sm:mb-0">
+                  Available Missions
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang}
+                      onClick={() => setSelectedLanguage(lang)}
+                      className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                        selectedLanguage === lang
+                          ? 'bg-hacker-green text-black'
+                          : 'bg-black text-hacker-green hover:bg-hacker-green hover:text-black border border-hacker-green'
+                      }`}
+                    >
+                      {lang === 'all' ? 'All' : lang}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {filteredMissions.map((mission) => (
+                  <MissionCard key={mission.id} mission={mission} />
+                ))}
+              </div>
+            </div>
         </div>
       </div>
     </div>

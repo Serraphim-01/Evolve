@@ -17,6 +17,7 @@ export const LineChartComponent = () => {
         <h3 className="text-xl font-semibold text-white mb-4">XP Over Time</h3>
         <ResponsiveContainer width="100%" height={300}>
             <LineChart data={data}>
+<<<<<<< HEAD
                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.1)" />
                 <XAxis dataKey="name" stroke="#888888" />
                 <YAxis stroke="#888888" />
@@ -30,6 +31,21 @@ export const LineChartComponent = () => {
                 <Legend wrapperStyle={{ color: '#ffffff' }} />
                 <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
                 <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+=======
+                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                <XAxis dataKey="name" stroke="#00ff00" />
+                <YAxis stroke="#00ff00" />
+                <Tooltip
+                    contentStyle={{
+                        backgroundColor: 'rgba(0, 20, 0, 0.9)',
+                        borderColor: '#00ff00',
+                        color: '#00ff00'
+                    }}
+                    />
+                <Legend wrapperStyle={{ color: '#00ff00' }} />
+                <Line type="monotone" dataKey="pv" stroke="#ff00c1" activeDot={{ r: 8 }} />
+                <Line type="monotone" dataKey="uv" stroke="#00fff9" />
+>>>>>>> 70a357ef675dac42486f5817540a1d24a9bbc3dc
             </LineChart>
         </ResponsiveContainer>
     </div>
