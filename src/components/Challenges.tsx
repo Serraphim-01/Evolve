@@ -1,16 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { ChallengeTypeModal } from './ChallengeTypeModal';
 import { ChallengeCreationDetailsModal } from './ChallengeCreationDetailsModal';
 import { ProcessingModal } from './ProcessingModal';
 import { ChallengePreview } from './ChallengePreview';
 import { missions, Mission } from '../data/missions';
 import { MissionCard } from './MissionCard';
-import { ChallengeDetailsModal } from './ChallengeDetailsModal';
 
 export const Challenges = () => {
-  const navigate = useNavigate();
-
   // State for creating challenges
   const [isTypeModalOpen, setIsTypeModalOpen] = useState(false);
   const [isCreationDetailsModalOpen, setIsCreationDetailsModalOpen] = useState(false);
@@ -23,10 +19,6 @@ export const Challenges = () => {
     language: '',
     testCase: '',
   });
-
-  // State for viewing challenge details
-  const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
 
   // State for filters
   const [filterType, setFilterType] = useState('All');
@@ -63,17 +55,6 @@ export const Challenges = () => {
     console.log('Challenge created:', newChallenge);
     setIsPreviewModalOpen(false);
     alert('Challenge created successfully!');
-  };
-
-  const handleMissionCardClick = (mission: Mission) => {
-    setSelectedMission(mission);
-    setIsDetailsModalOpen(true);
-  };
-
-  const handleSolveChallenge = () => {
-    if (selectedMission) {
-      navigate(`/challenges/${selectedMission.id}`);
-    }
   };
 
   const filteredMissions = missions.filter(mission => {
@@ -134,7 +115,7 @@ export const Challenges = () => {
 
       <div className="missions-grid">
         {filteredMissions.map((mission) => (
-          <MissionCard key={mission.id} mission={mission} onClick={() => handleMissionCardClick(mission)} />
+          <MissionCard key={mission.id} mission={mission} />
         ))}
       </div>
 
@@ -143,9 +124,6 @@ export const Challenges = () => {
       <ChallengeCreationDetailsModal isOpen={isCreationDetailsModalOpen} onClose={() => setIsCreationDetailsModalOpen(false)} onSubmit={handleCreationDetailsSubmit} />
       <ProcessingModal isOpen={isProcessingModalOpen} />
       <ChallengePreview isOpen={isPreviewModalOpen} onClose={() => setIsPreviewModalOpen(false)} onSubmit={handlePreviewSubmit} challenge={newChallenge} />
-
-      {/* Modal for viewing challenge details */}
-      <ChallengeDetailsModal isOpen={isDetailsModalOpen} onClose={() => setIsDetailsModalOpen(false)} onSolve={handleSolveChallenge} mission={selectedMission} />
     </div>
   );
 };

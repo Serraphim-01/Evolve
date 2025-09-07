@@ -1,20 +1,23 @@
 import React from 'react';
-import { Modal } from './Modal';
-import { Mission } from '../data/missions';
+import { useParams, useNavigate } from 'react-router-dom';
+import { missions } from '../data/missions';
 
-interface ChallengeDetailsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSolve: () => void;
-  mission: Mission | null;
-}
+export const ChallengeDetailsPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const mission = missions.find((m) => m.id === parseInt(id || ''));
 
-export const ChallengeDetailsModal = ({ isOpen, onClose, onSolve, mission }: ChallengeDetailsModalProps) => {
-  if (!mission) return null;
+  if (!mission) {
+    return <div>Challenge not found!</div>;
+  }
+
+  const handleSolve = () => {
+    navigate(`/challenges/${mission.id}/solve`);
+  };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <h2>{mission.title}</h2>
+    <div>
+      <h1>{mission.title}</h1>
       <p>{mission.description}</p>
       <hr />
       <p><strong>Language:</strong> {mission.language}</p>
@@ -27,7 +30,7 @@ export const ChallengeDetailsModal = ({ isOpen, onClose, onSolve, mission }: Cha
           <span key={tag} className="tag">{tag}</span>
         ))}
       </div>
-      <button onClick={onSolve}>Solve Challenge</button>
-    </Modal>
+      <button onClick={handleSolve}>Solve Challenge</button>
+    </div>
   );
 };

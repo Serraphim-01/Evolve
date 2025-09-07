@@ -8,6 +8,7 @@ export interface Mission {
   language: string;
   expectedTimeToSolve: string;
   recommendedLevel: number;
+  testCases: { input: string; expectedOutput: string }[];
 }
 
 export const missions: Mission[] = [
@@ -21,6 +22,10 @@ export const missions: Mission[] = [
     language: 'JavaScript',
     expectedTimeToSolve: '15 minutes',
     recommendedLevel: 1,
+    testCases: [
+      { input: 'hello', expectedOutput: 'olleh' },
+      { input: 'world', expectedOutput: 'dlrow' },
+    ],
   },
   {
     id: 2,
@@ -32,6 +37,10 @@ export const missions: Mission[] = [
     language: 'Python',
     expectedTimeToSolve: '10 minutes',
     recommendedLevel: 1,
+    testCases: [
+      { input: '15', expectedOutput: 'FizzBuzz' },
+      { input: '9', expectedOutput: 'Fizz' },
+    ],
   },
   {
     id: 3,
@@ -43,5 +52,9 @@ export const missions: Mission[] = [
     language: 'JavaScript',
     expectedTimeToSolve: '20 minutes',
     recommendedLevel: 2,
+    testCases: [
+      { input: 'The quick brown fox jumped over the lazy dog', expectedOutput: 'jumped' },
+      { input: 'A journey of a thousand miles begins with a single step', expectedOutput: 'thousand' },
+    ],
   },
 ];

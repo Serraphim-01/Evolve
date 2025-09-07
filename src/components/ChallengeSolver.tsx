@@ -5,7 +5,8 @@ import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism.css';
+import 'prismjs/themes/prism-okaidia.css';
+import { Play } from 'lucide-react';
 
 export const ChallengeSolver = () => {
   const { id } = useParams<{ id: string }>();
@@ -16,7 +17,7 @@ export const ChallengeSolver = () => {
 
   useEffect(() => {
     if (mission) {
-      const instructions = `/*\n${mission.title}\n\n${mission.description}\n*/`;
+      const instructions = `/*\n${mission.title}\n\n${mission.description}\n*/\n\n// Your code here`;
       setCode(instructions);
     }
   }, [mission]);
@@ -27,9 +28,8 @@ export const ChallengeSolver = () => {
 
   const handleTestSubmit = () => {
     setTestResult('Running tests...');
-    // Simulate test execution
     setTimeout(() => {
-      const isCorrect = Math.random() > 0.5; // Randomly pass or fail
+      const isCorrect = Math.random() > 0.5;
       if (isCorrect) {
         setTestResult(`Tests passed! You earned ${mission.exp} EXP.`);
       } else {
@@ -40,25 +40,32 @@ export const ChallengeSolver = () => {
 
   return (
     <div className="challenge-solver matrix-bg">
+      <div className="solver-header">
+        <h1>{mission.title}</h1>
+        <button onClick={handleTestSubmit} className="run-button">
+          <Play />
+          Run
+        </button>
+      </div>
       <div className="solver-layout">
         <div className="solution-area">
-          <h2>Solution</h2>
           <Editor
             value={code}
             onValueChange={code => setCode(code)}
             highlight={code => highlight(code, languages.js, 'js')}
             padding={10}
-            style={{
-              fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 12,
-              border: '1px solid #00FF00',
-              backgroundColor: 'rgba(0, 0, 0, 0.8)',
-              color: '#fff',
-            }}
+            className="code-editor"
           />
-          <button onClick={handleTestSubmit}>Submit for Testing</button>
         </div>
         <div className="testing-area">
+          <h2>Test Scenarios</h2>
+          <ul>
+            {mission.testCases.map((tc, index) => (
+              <li key={index}>
+                <strong>Input:</strong> {tc.input} | <strong>Expected Output:</strong> {tc.expectedOutput}
+              </li>
+            ))}
+          </ul>
           <h2>Test Results</h2>
           <pre>{testResult}</pre>
         </div>

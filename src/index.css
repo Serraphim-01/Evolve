@@ -233,11 +233,34 @@ form textarea, form select {
   margin-top: 20px;
 }
 
-.solution-area, .testing-area {
+.solution-area {
+  flex: 2;
+}
+
+.testing-area {
   flex: 1;
-  border: 1px solid #00FF00;
+  border-left: 1px solid #00FF00;
   padding: 20px;
-  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.code-editor {
+  background-color: #000 !important;
+  color: #00FF00 !important;
+  font-family: 'Courier New', Courier, monospace !important;
+  font-size: 16px !important;
+}
+
+.solver-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.run-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .matrix-bg {
@@ -245,7 +268,9 @@ form textarea, form select {
   overflow: hidden;
   position: relative;
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 .matrix-bg::before {
