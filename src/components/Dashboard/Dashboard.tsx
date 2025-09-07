@@ -3,17 +3,11 @@ import { useAuth } from '../../context/AuthContext';
 import { MissionCard } from './MissionCard';
 import { StatsCard } from './StatsCard';
 import { Mission } from '../../types';
-<<<<<<< HEAD
-import { Trophy, Target, Users, Clock } from 'lucide-react';
-import { LineChartComponent } from './LineChart';
-import { PieChartComponent } from './PieChart';
-=======
 import { Trophy, Users, Clock } from 'lucide-react';
 import { LineChartComponent } from './LineChart';
 import { PieChartComponent } from './PieChart';
 import { TerminalLog } from './TerminalLog';
 import './Hacker.css';
->>>>>>> 70a357ef675dac42486f5817540a1d24a9bbc3dc
 
 const mockMissions: Mission[] = [
   {
@@ -89,37 +83,9 @@ export const Dashboard = () => {
           ))}
         </div>
 
-<<<<<<< HEAD
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          <LineChartComponent />
-          <PieChartComponent />
-        </div>
-
-        <div className="bg-black rounded-xl p-6 mb-8">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-            <h2 className="text-xl font-semibold text-white mb-4 sm:mb-0">
-              Available Missions
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {languages.map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setSelectedLanguage(lang)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
-                    selectedLanguage === lang
-                      ? 'bg-hacker-green text-black'
-                      : 'bg-black text-white hover:bg-hacker-green hover:text-black border border-white'
-                  }`}
-                >
-                  {lang === 'all' ? 'All Languages' : lang}
-                </button>
-              ))}
-            </div>
-=======
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
           <div className="lg:col-span-3">
             <LineChartComponent />
->>>>>>> 70a357ef675dac42486f5817540a1d24a9bbc3dc
           </div>
           <div className="lg:col-span-2">
             <PieChartComponent />
