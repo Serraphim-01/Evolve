@@ -71,10 +71,10 @@ export const Dashboard = () => {
     <div className="flex-1 bg-black min-h-screen p-8 font-mono">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="glitch" data-text={`Welcome back, ${user?.username}!`}>
+          <h1 className="glitch text-3xl" data-text={`Welcome back, ${user?.username}!`}>
             Welcome back, {user?.username}!
           </h1>
-          <p className="text-hacker-green text-lg">&gt; Ready to tackle some new challenges?</p>
+          <p className="text-hacker-green text-base">&gt; Ready to tackle some new challenges?</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -94,14 +94,14 @@ export const Dashboard = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <div className="bg-black rounded-xl p-6 border border-hacker-green">
-                <h2 className="text-xl font-semibold text-hacker-green mb-4">
+                <h2 className="text-lg font-semibold text-hacker-green mb-4">
                     System Log
                 </h2>
                 <TerminalLog />
             </div>
             <div className="bg-black rounded-xl p-6 border border-hacker-green">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                <h2 className="text-xl font-semibold text-hacker-green mb-4 sm:mb-0">
+                <h2 className="text-lg font-semibold text-hacker-green mb-4 sm:mb-0">
                   Available Missions
                 </h2>
                 <div className="flex flex-wrap gap-2">

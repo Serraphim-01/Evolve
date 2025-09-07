@@ -33,7 +33,7 @@ export const PieChartComponent = () => {
                     contentStyle={{
                         backgroundColor: 'rgba(0, 20, 0, 0.9)',
                         borderColor: '#00ff00',
-                        color: '#00ff00'
+                        color: '#0f0'
                     }}
                 />
                 <Legend wrapperStyle={{ color: '#00ff00' }} />

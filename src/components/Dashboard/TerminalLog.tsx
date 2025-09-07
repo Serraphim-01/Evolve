@@ -1,48 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import { useTypingEffect } from '../../hooks/useTypingEffect';
 
-const initialLogLines = [
-  { timestamp: '2024-07-20 10:30:01', level: 'INFO', message: 'System boot sequence initiated...' },
-  { timestamp: '2024-07-20 10:30:02', level: 'INFO', message: 'Loading kernel modules...' },
-  { timestamp: '2024-07-20 10:30:03', level: 'INFO', message: 'Mounting file systems...' },
-  { timestamp: '2024-07-20 10:30:04', level: 'WARN', message: 'Deprecated package found: legacy-auth@1.2.3' },
-  { timestamp: '2024-07-20 10:30:05', level: 'INFO', message: 'Initializing network interfaces...' },
-  { timestamp: '2024-07-20 10:30:06', level: 'INFO', message: 'Firewall status: ACTIVE' },
-  { timestamp: '2024-07-20 10:30:07', level: 'ERROR', message: 'Failed to connect to external server: api.example.com' },
-  { timestamp: '2024-07-20 10:30:08', level: 'INFO', message: 'Retrying connection in 5s...' },
-];
-
-const newLogLines = [
-    { level: 'INFO', message: 'User session validated.' },
-    { level: 'INFO', message: 'Accessing secure data...' },
-    { level: 'WARN', message: 'High memory usage detected.' },
-    { level: 'INFO', message: 'Scanning for vulnerabilities...' },
-    { level: 'ERROR', message: 'Intrusion attempt detected from IP: 192.168.1.101' },
-    { level: 'INFO', message: 'Blocking suspicious IP...' },
-    { level: 'INFO', message: 'System returning to normal operation.' },
-];
+const TypingIndicator = () => <span className="animate-ping">_</span>;
 
 export const TerminalLog = () => {
-  const [logLines, setLogLines] = useState(initialLogLines);
+  const { user } = useAuth();
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  const [linesToRender, setLinesToRender] = useState<string[]>([]);
+  const [isTyping, setIsTyping] = useState(true);
+
+  const xpForNextLevel = ((user?.level || 0) + 1) * 150;
+  const remainingXp = xpForNextLevel - (user?.xp || 0);
+
+  const allLines = useMemo(() => [
+    `Welcome, ${user?.username || 'guest'}.`,
+    `> Accessing user data...`,
+    `> Level: ${user?.level || 0}`,
+    `> XP to next level: ${remainingXp > 0 ? remainingXp : 0}`,
+    `> System status: Nominal. Ready for new missions.`
+  ], [user, remainingXp]);
+
+  const textToType = linesToRender[currentLineIndex] || '';
+  const typedText = useTypingEffect(textToType, 50);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setLogLines(prevLines => {
-        const nextLine = newLogLines[Math.floor(Math.random() * newLogLines.length)];
-        const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
-        return [...prevLines, { ...nextLine, timestamp }];
-      });
-    }, 2000);
+    if (user) {
+        setLinesToRender([allLines[0]]);
+    }
+  }, [user, allLines]);
 
-    return () => clearInterval(interval);
-  }, []);
+  useEffect(() => {
+    if (textToType && typedText === textToType) {
+      setIsTyping(false);
+      const timeout = setTimeout(() => {
+        if (currentLineIndex < allLines.length - 1) {
+          setCurrentLineIndex(prevIndex => prevIndex + 1);
+          setLinesToRender(prevLines => [...prevLines, allLines[currentLineIndex + 1]]);
+          setIsTyping(true);
+        }
+      }, 500); // Reduced delay for faster progression
+      return () => clearTimeout(timeout);
+    }
+  }, [typedText, textToType, currentLineIndex, allLines]);
 
   return (
-    <div className="terminal-log">
-      {logLines.map((line, index) => (
+    <div className="terminal-log h-full">
+      {linesToRender.map((line, index) => (
         <div key={index} className="terminal-log-line">
-          <span className="timestamp">{line.timestamp}</span>
-          <span className={`level-${line.level.toLowerCase()}`}> [{line.level}] </span>
-          <span>{line.message}</span>
+          {index < currentLineIndex ? line : typedText}
+          {index === currentLineIndex && isTyping && <TypingIndicator />}
         </div>
       ))}
     </div>
