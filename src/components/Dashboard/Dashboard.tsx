@@ -71,7 +71,7 @@ export const Dashboard = () => {
     <div className="flex-1 bg-black min-h-screen p-8 font-mono">
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="glitch text-3xl" data-text={`Welcome back, ${user?.username}!`}>
+          <h1 className="glitch" data-text={`Welcome back, ${user?.username}!`}>
             Welcome back, {user?.username}!
           </h1>
           <p className="text-hacker-green text-base">&gt; Ready to tackle some new challenges?</p>
