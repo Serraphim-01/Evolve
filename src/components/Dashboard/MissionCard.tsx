@@ -1,48 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mission } from '../../types';
-import { Code, Users, Award, Play } from 'lucide-react';
+import { Users, Award, Play } from 'lucide-react';
+import { getLanguageIcon, getDifficultyIcon } from '../../utils/iconUtils';
 
 interface MissionCardProps {
   mission: Mission;
 }
 
 export const MissionCard: React.FC<MissionCardProps> = ({ mission }) => {
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'beginner': return 'text-hacker-green bg-hacker-green/20';
-      case 'intermediate': return 'text-hacker-green bg-hacker-green/20';
-      case 'advanced': return 'text-hacker-green bg-hacker-green/20';
-      default: return 'text-white bg-white/20';
-    }
-  };
-
   return (
-    <div className="bg-black border border-white rounded-lg p-6 hover:border-hacker-green transition-all duration-200 cursor-pointer group">
-      <div className="flex items-start justify-between mb-4">
+    <div className="bg-black border border-white rounded-lg p-4 hover:border-hacker-green transition-all duration-200 cursor-pointer group flex flex-col">
+      <div className="flex items-start justify-between mb-3">
         <div className="flex items-center space-x-2">
-          <Code className="h-5 w-5 text-white" />
-          <span className="text-sm font-medium text-white">{mission.language}</span>
+          {getLanguageIcon(mission.language)}
         </div>
         <div className="flex items-center space-x-2">
-          <div className={`px-3 py-1 rounded-full text-xs font-medium ${getDifficultyColor(mission.difficulty)}`}>
-            {mission.difficulty}
-          </div>
-          <div className="px-3 py-1 rounded-full text-xs font-medium text-white bg-blue-500/20">
+          {getDifficultyIcon(mission.difficulty)}
+          <div className="px-2 py-0.5 rounded-full text-xs font-medium text-white bg-blue-500/20">
             {mission.type}
           </div>
         </div>
       </div>
 
-      <h3 className="text-lg font-semibold text-white mb-2 group-hover:text-hacker-green transition-colors">
+      <h3 className="text-base font-semibold text-white mb-2 group-hover:text-hacker-green transition-colors flex-grow">
         {mission.title}
       </h3>
-      
-      <p className="text-white text-sm mb-4">
-        {mission.description}
-      </p>
 
-      <div className="flex flex-wrap gap-1 mb-4">
+      <div className="flex flex-wrap gap-1 mb-3">
         {mission.tags.slice(0, 3).map((tag) => (
           <span
             key={tag}

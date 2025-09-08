@@ -4,7 +4,11 @@ import { useTypingEffect } from '../../hooks/useTypingEffect';
 
 const TypingIndicator = () => <span className="animate-ping">_</span>;
 
-export const TerminalLog = () => {
+interface TerminalLogProps {
+    onTypingComplete: () => void;
+}
+
+export const TerminalLog: React.FC<TerminalLogProps> = ({ onTypingComplete }) => {
   const { user } = useAuth();
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [linesToRender, setLinesToRender] = useState<string[]>([]);
@@ -32,17 +36,19 @@ export const TerminalLog = () => {
 
   useEffect(() => {
     if (textToType && typedText === textToType) {
-      setIsTyping(false);
-      const timeout = setTimeout(() => {
-        if (currentLineIndex < allLines.length - 1) {
+      if (currentLineIndex === allLines.length - 1) {
+        onTypingComplete();
+      } else {
+        setIsTyping(false);
+        const timeout = setTimeout(() => {
           setCurrentLineIndex(prevIndex => prevIndex + 1);
           setLinesToRender(prevLines => [...prevLines, allLines[currentLineIndex + 1]]);
           setIsTyping(true);
-        }
-      }, 500); // Reduced delay for faster progression
-      return () => clearTimeout(timeout);
+        }, 500);
+        return () => clearTimeout(timeout);
+      }
     }
-  }, [typedText, textToType, currentLineIndex, allLines]);
+  }, [typedText, textToType, currentLineIndex, allLines, onTypingComplete]);
 
   return (
     <div className="terminal-log h-full">
