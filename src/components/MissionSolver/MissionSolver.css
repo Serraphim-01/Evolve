@@ -1,0 +1,53 @@
+.terminal-container {
+    background-color: #0a0a0a;
+    border: 1px solid #00ff00;
+    border-radius: 5px;
+    padding: 1rem;
+    font-family: 'Courier New', Courier, monospace;
+    color: #00ff00;
+}
+
+.terminal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #00ff00;
+    margin-bottom: 1rem;
+}
+
+.terminal-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #00ff00;
+}
+
+.terminal-body {
+
+}
+
+.terminal-prompt {
+    display: flex;
+    align-items: center;
+}
+
+.terminal-prompt > span {
+    margin-right: 0.5rem;
+}
+
+.typing-indicator {
+    animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes ping {
+    75%, 100% {
+        transform: scale(1.2);
+        opacity: 0;
+    }
+}
+
+.timer {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #ffff00;
+}

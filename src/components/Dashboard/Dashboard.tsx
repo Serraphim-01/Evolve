@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { MissionCard } from './MissionCard';
 import { Mission } from '../../types';
-import { LineChartComponent } from './LineChart';
-import { MultiChart } from './MultiChart';
 import { TerminalLog } from './TerminalLog';
 import { getLanguageIcon } from '../../utils/iconUtils';
 import './Hacker.css';
@@ -70,52 +68,44 @@ export const Dashboard: React.FC = () => {
               <p className="text-hacker-green text-base">&gt; Ready to tackle some new challenges?</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
-                  <div className="lg:col-span-3">
-                    <LineChartComponent />
-                  </div>
-                  <div className="lg:col-span-2">
-                    <MultiChart />
-                  </div>
+            <div className="grid grid-cols-1 gap-6 mb-8">
+                <div id="terminal-log-container" className="bg-black rounded-xl p-6 border border-hacker-green">
+                    <h2 className="text-lg font-semibold text-hacker-green mb-4">
+                        System Log
+                    </h2>
+                    <TerminalLog />
+                </div>
+            </div>
+
+            <div className="bg-black rounded-xl p-6 border border-hacker-green">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+                <h2 className="text-lg font-semibold text-hacker-green mb-4 sm:mb-0">
+                    Available Missions
+                </h2>
+                <div className="flex flex-wrap gap-2">
+                    {languages.map((lang) => (
+                    <button
+                        key={lang}
+                        onClick={() => setSelectedLanguage(lang)}
+                        className={`p-2 rounded-lg transition-colors ${
+                        selectedLanguage === lang
+                            ? 'bg-hacker-green text-black'
+                            : 'bg-black text-hacker-green hover:bg-hacker-green hover:text-black border border-hacker-green'
+                        }`}
+                        title={lang === 'all' ? 'All Languages' : lang}
+                    >
+                        {getLanguageIcon(lang, 'h-6 w-6')}
+                    </button>
+                    ))}
+                </div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <div id="terminal-log-container" className="bg-black rounded-xl p-6 border border-hacker-green">
-                        <h2 className="text-lg font-semibold text-hacker-green mb-4">
-                            System Log
-                        </h2>
-                        <TerminalLog />
-                    </div>
-                    <div className="bg-black rounded-xl p-6 border border-hacker-green">
-                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-                        <h2 className="text-lg font-semibold text-hacker-green mb-4 sm:mb-0">
-                          Available Missions
-                        </h2>
-                        <div className="flex flex-wrap gap-2">
-                          {languages.map((lang) => (
-                            <button
-                              key={lang}
-                              onClick={() => setSelectedLanguage(lang)}
-                              className={`p-2 rounded-lg transition-colors ${
-                                selectedLanguage === lang
-                                  ? 'bg-hacker-green text-black'
-                                  : 'bg-black text-hacker-green hover:bg-hacker-green hover:text-black border border-hacker-green'
-                              }`}
-                              title={lang === 'all' ? 'All Languages' : lang}
-                            >
-                              {getLanguageIcon(lang, 'h-6 w-6')}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        {filteredMissions.map((mission) => (
-                          <MissionCard key={mission.id} mission={mission} />
-                        ))}
-                      </div>
-                    </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {filteredMissions.map((mission) => (
+                    <MissionCard key={mission.id} mission={mission} />
+                ))}
                 </div>
+            </div>
             </div>
         </div>
   );
