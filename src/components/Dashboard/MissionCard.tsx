@@ -12,10 +12,10 @@ export const MissionCard: React.FC<MissionCardProps> = ({ mission }) => {
   return (
     <div className="bg-black border border-white rounded-lg p-4 hover:border-hacker-green transition-all duration-200 cursor-pointer group flex flex-col">
       <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2" title={mission.language}>
           {getLanguageIcon(mission.language)}
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center space-x-2" title={mission.difficulty}>
           {getDifficultyIcon(mission.difficulty)}
           <div className="px-2 py-0.5 rounded-full text-xs font-medium text-white bg-blue-500/20">
             {mission.type}
@@ -39,17 +39,17 @@ export const MissionCard: React.FC<MissionCardProps> = ({ mission }) => {
       </div>
 
       <div className="flex items-center justify-between pt-4 border-t border-hacker-green mt-auto">
-        <div className="flex items-center space-x-4 text-sm text-white">
-          <div className="flex items-center space-x-1">
+        <div className="flex flex-col text-sm text-white">
+          <div className="flex items-center space-x-1" title={`${mission.completions} completions`}>
             <Users className="h-4 w-4" />
             <span>{mission.completions}</span>
           </div>
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1" title={`${mission.xpReward} XP`}>
             <Award className="h-4 w-4" />
             <span>{mission.xpReward} XP</span>
           </div>
         </div>
-        <Link to={`/mission/${mission.id}`} className="bg-hacker-green text-black p-2 rounded-full hover:bg-opacity-80 transition-colors">
+        <Link to={`/mission/${mission.id}`} className="bg-hacker-green text-black p-2 rounded-full hover:bg-opacity-80 transition-colors" title="Start Mission">
           <Play className="h-5 w-5" />
         </Link>
       </div>
