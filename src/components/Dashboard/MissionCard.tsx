@@ -1,31 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mission } from '../../types';
-import { Code, Users, Award, Play, Braces, FileJson, Coffee, Plus, Type, SignalLow, SignalMedium, SignalHigh } from 'lucide-react';
+import { Users, Award, Play } from 'lucide-react';
+import { getLanguageIcon, getDifficultyIcon } from '../../utils/iconUtils';
 
 interface MissionCardProps {
   mission: Mission;
 }
-
-const getLanguageIcon = (language: string) => {
-    switch (language) {
-        case 'JavaScript': return <Braces className="h-5 w-5 text-white" />;
-        case 'Python': return <FileJson className="h-5 w-5 text-white" />;
-        case 'Java': return <Coffee className="h-5 w-5 text-white" />;
-        case 'C++': return <Plus className="h-5 w-5 text-white" />;
-        case 'TypeScript': return <Type className="h-5 w-5 text-white" />;
-        default: return <Code className="h-5 w-5 text-white" />;
-    }
-};
-
-const getDifficultyIcon = (difficulty: string) => {
-    switch (difficulty) {
-        case 'beginner': return <SignalLow className="h-5 w-5 text-hacker-green" />;
-        case 'intermediate': return <SignalMedium className="h-5 w-5 text-hacker-green" />;
-        case 'advanced': return <SignalHigh className="h-5 w-5 text-hacker-green" />;
-        default: return null;
-    }
-};
 
 export const MissionCard: React.FC<MissionCardProps> = ({ mission }) => {
   return (

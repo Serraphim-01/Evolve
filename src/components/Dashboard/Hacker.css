@@ -238,6 +238,27 @@
     color: #ff0000;
   }
 
+  #terminal-log-container.is-typing {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 800px;
+    z-index: 100;
+  }
+
+  #terminal-log-container.is-sliding {
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translate(0, 0);
+    width: 100%;
+    max-width: 100%;
+    z-index: 1;
+    transition: all 1s ease-in-out;
+  }
+
   .animate-ping {
     animation: ping 1s cubic-bezier(0, 0, 0.2, 1) infinite;
   }
