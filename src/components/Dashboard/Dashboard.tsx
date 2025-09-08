@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { MissionCard } from './MissionCard';
-import { StatsCard } from './StatsCard';
 import { Mission } from '../../types';
-import { Trophy, Users, Clock, Globe } from 'lucide-react';
 import { LineChartComponent } from './LineChart';
 import { MultiChart } from './MultiChart';
 import { TerminalLog } from './TerminalLog';
@@ -52,12 +50,9 @@ const mockMissions: Mission[] = [
   }
 ];
 
-type LoadingStage = 'typing' | 'sliding' | 'finished';
-
-export const Dashboard = () => {
+export const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const [selectedLanguage, setSelectedLanguage] = useState('all');
-  const [loadingStage, setLoadingStage] = useState<LoadingStage>('typing');
 
   const languages = ['all', 'JavaScript', 'Python', 'Java', 'C++', 'TypeScript'];
   
@@ -65,37 +60,17 @@ export const Dashboard = () => {
     ? mockMissions 
     : mockMissions.filter(mission => mission.language === selectedLanguage);
 
-  const stats = [
-    { title: 'Missions Completed', value: user?.completedMissions || 0, icon: Trophy, color: 'text-hacker-green' },
-    { title: 'Total XP', value: user?.xp || 0, icon: Users, color: 'text-hacker-green' },
-    { title: 'Missions Created', value: user?.createdMissions || 0, icon: Clock, color: 'text-hacker-green' }
-  ];
-
-  const handleTypingComplete = () => {
-    setLoadingStage('sliding');
-    setTimeout(() => {
-        setLoadingStage('finished');
-    }, 1000); // Match this to the CSS transition duration
-  };
-
   return (
     <div className="flex-1 bg-black min-h-screen p-8 font-mono">
-        <div data-testid="main-content-wrapper" className={`transition-opacity duration-1000 ${loadingStage === 'finished' ? 'opacity-100' : 'opacity-0'}`}>
-            <div className="max-w-7xl mx-auto">
-                <div className="mb-8">
-                  <h1 className="glitch" data-text={`Welcome back, ${user?.username}!`}>
-                    Welcome back, {user?.username}!
-                  </h1>
-                  <p className="text-hacker-green text-base">&gt; Ready to tackle some new challenges?</p>
-                </div>
+        <div className="max-w-7xl mx-auto">
+            <div className="mb-8">
+              <h1 className="glitch" data-text={`Welcome back, ${user?.username}!`}>
+                Welcome back, {user?.username}!
+              </h1>
+              <p className="text-hacker-green text-base">&gt; Ready to tackle some new challenges?</p>
+            </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  {stats.map((stat, index) => (
-                    <StatsCard key={index} {...stat} />
-                  ))}
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-8">
                   <div className="lg:col-span-3">
                     <LineChartComponent />
                   </div>
@@ -105,11 +80,11 @@ export const Dashboard = () => {
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    <div id="terminal-log-container" className={`bg-black rounded-xl p-6 border border-hacker-green transition-all duration-1000 ${loadingStage === 'typing' ? 'is-typing' : ''} ${loadingStage === 'sliding' ? 'is-sliding' : ''}`}>
+                    <div id="terminal-log-container" className="bg-black rounded-xl p-6 border border-hacker-green">
                         <h2 className="text-lg font-semibold text-hacker-green mb-4">
                             System Log
                         </h2>
-                        <TerminalLog onTypingComplete={handleTypingComplete} />
+                        <TerminalLog />
                     </div>
                     <div className="bg-black rounded-xl p-6 border border-hacker-green">
                       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
@@ -143,6 +118,5 @@ export const Dashboard = () => {
                 </div>
             </div>
         </div>
-    </div>
   );
 };
