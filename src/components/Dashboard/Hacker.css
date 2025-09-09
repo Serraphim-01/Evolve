@@ -207,12 +207,18 @@
   }
 
 
+  #terminal-log-container {
+      display: flex;
+      flex-direction: column;
+      height: 400px; /* Or a specific height */
+  }
+
   .terminal-log {
     background-color: #0a0a0a;
     border: 1px solid #00ff00;
     border-radius: 5px;
     padding: 1rem;
-    height: 100%;
+    flex-grow: 1;
     overflow-y: auto;
     font-family: 'Courier New', Courier, monospace;
     color: #00ff00;
