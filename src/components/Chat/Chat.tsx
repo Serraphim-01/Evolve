@@ -10,7 +10,7 @@ const mockMessages: ChatMessage[] = [
     username: 'AlgoMaster',
     message: 'Hey everyone! Just completed the binary tree challenge. The recursive approach was tricky but worth it!',
     timestamp: '2024-01-22T10:30:00Z',
-    avatar: 'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+    avatar: ''
   },
   {
     id: '2',
@@ -18,7 +18,7 @@ const mockMessages: ChatMessage[] = [
     username: 'ReactGuru',
     message: 'Nice work! I struggled with that one too. The key insight for me was thinking about the base case first.',
     timestamp: '2024-01-22T10:32:00Z',
-    avatar: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+    avatar: ''
   },
   {
     id: '3',
@@ -26,7 +26,7 @@ const mockMessages: ChatMessage[] = [
     username: 'CodeMaster',
     message: 'Great discussion! For anyone working on tree problems, I recommend drawing out the recursive calls on paper first.',
     timestamp: '2024-01-22T10:35:00Z',
-    avatar: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+    avatar: ''
   },
   {
     id: '4',
@@ -34,9 +34,11 @@ const mockMessages: ChatMessage[] = [
     username: 'PythonPro',
     message: 'Anyone up for a pair programming session on the dynamic programming challenges?',
     timestamp: '2024-01-22T10:40:00Z',
-    avatar: 'https://images.pexels.com/photos/1040880/pexels-photo-1040880.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop'
+    avatar: ''
   }
 ];
+
+const BlinkingCursor = () => <span className="animate-ping inline-block w-2 h-4 bg-hacker-green"></span>;
 
 export const Chat = () => {
   const { user } = useAuth();
@@ -77,69 +79,56 @@ export const Chat = () => {
   };
 
   return (
-    <div className="flex-1 bg-black min-h-screen flex flex-col">
-      <div className="border-b border-white p-6">
-        <h1 className="text-2xl font-bold text-white">Community Chat</h1>
-        <p className="text-white">Connect with fellow developers</p>
+    <div className="flex-1 bg-black min-h-screen flex flex-col font-mono">
+      <div className="border-b border-hacker-green p-6">
+        <h1 className="text-2xl font-bold text-hacker-green">#general</h1>
+        <p className="text-hacker-green">&gt; Connect with fellow developers</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-6">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 text-hacker-green">
         {messages.map((message) => (
-          <div key={message.id} className="flex space-x-4">
-            <img
-              src={message.avatar}
-              alt={message.username}
-              className="w-10 h-10 rounded-full flex-shrink-0 border-2 border-hacker-green"
-            />
-            <div className="flex-1">
-              <div className="flex items-center space-x-2 mb-1">
-                <span className="font-medium text-hacker-green">{message.username}</span>
-                <span className="text-xs text-white">
-                  {formatTime(message.timestamp)}
-                </span>
-              </div>
-              <div className="bg-black border border-white rounded-lg rounded-tl-none px-4 py-3">
-                <p className="text-white">{message.message}</p>
-              </div>
+          <div key={message.id} className="flex justify-between">
+            <div>
+              <span className="font-bold">{message.username}:</span>
+              <span className="ml-2">{message.message}</span>
             </div>
+            <span className="text-xs self-start">{formatTime(message.timestamp)}</span>
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
 
-      <form onSubmit={handleSendMessage} className="border-t border-white p-6">
-        <div className="flex space-x-4">
-          <div className="flex-1 relative">
+      <form onSubmit={handleSendMessage} className="p-6">
+        <div className="flex items-center">
+            <span className="text-hacker-green">{user?.username}:~$</span>
             <input
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your message..."
-              className="w-full px-4 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white placeholder-white pr-20"
+              className="flex-1 bg-transparent focus:outline-none text-hacker-green ml-2"
             />
-            <div className="absolute right-3 top-3.5 flex space-x-2">
-              <button
-                type="button"
-                className="text-white hover:text-hacker-green transition-colors"
-              >
-                <Paperclip className="h-5 w-5" />
-              </button>
-              <button
-                type="button"
-                className="text-white hover:text-hacker-green transition-colors"
-              >
-                <Smile className="h-5 w-5" />
-              </button>
-            </div>
+            {newMessage.length === 0 && <BlinkingCursor />}
+          <div className="flex space-x-2 ml-4">
+            <button
+              type="button"
+              className="text-white hover:text-hacker-green transition-colors"
+            >
+              <Paperclip className="h-5 w-5" />
+            </button>
+            <button
+              type="button"
+              className="text-white hover:text-hacker-green transition-colors"
+            >
+              <Smile className="h-5 w-5" />
+            </button>
+            <button
+              type="submit"
+              disabled={!newMessage.trim()}
+              className="text-hacker-green disabled:text-gray-600 hover:text-white transition-colors"
+            >
+              <Send className="h-5 w-5" />
+            </button>
           </div>
-          <button
-            type="submit"
-            disabled={!newMessage.trim()}
-            className="bg-hacker-green text-black px-6 py-3 rounded-lg font-medium hover:bg-opacity-80 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-          >
-            <Send className="h-5 w-5" />
-            <span>Send</span>
-          </button>
         </div>
       </form>
     </div>
