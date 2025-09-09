@@ -6,6 +6,9 @@ export default {
       colors: {
         'hacker-green': '#00ff00',
       },
+      fontFamily: {
+        mono: ['"Courier New"', 'monospace'],
+      },
     },
   },
   plugins: [],

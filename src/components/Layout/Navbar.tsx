@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { 
@@ -8,13 +8,15 @@ import {
   MessageSquare, 
   LogOut, 
   Code,
-  Trophy,
-  Plus
+  Plus,
+  ChevronsLeft,
+  ChevronsRight
 } from 'lucide-react';
 
 export const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   if (!isAuthenticated) return null;
 
@@ -26,19 +28,24 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className="bg-black border-r border-white w-64 min-h-screen p-6">
-      <div className="flex items-center space-x-3 mb-8">
-        <div className="bg-hacker-green rounded-lg p-2">
-          <Code className="h-6 w-6 text-black" />
+    <nav className={`bg-black border-r border-white min-h-screen p-4 flex flex-col transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+      <div className="flex items-center justify-between mb-8">
+        <div className={`flex items-center space-x-3 ${isCollapsed ? 'hidden' : ''}`}>
+            <div className="bg-hacker-green rounded-lg p-2">
+              <Code className="h-6 w-6 text-black" />
+            </div>
+            <div>
+              <h1 className="text-white font-bold text-xl">Evolve</h1>
+              <p className="text-white text-sm">Learn by doing</p>
+            </div>
         </div>
-        <div>
-          <h1 className="text-white font-bold text-xl">Evolve</h1>
-          <p className="text-white text-sm">Learn by doing</p>
-        </div>
+        <button onClick={() => setIsCollapsed(!isCollapsed)} className="text-white hover:text-hacker-green">
+            {isCollapsed ? <ChevronsRight /> : <ChevronsLeft />}
+        </button>
       </div>
 
       {user && (
-        <div className="bg-black rounded-lg p-4 mb-6">
+        <div className={`bg-black rounded-lg p-4 mb-6 ${isCollapsed ? 'hidden' : ''}`}>
           <div className="flex items-center space-x-3 mb-3">
             <img
               src={user.avatar}
@@ -60,7 +67,7 @@ export const Navbar = () => {
         </div>
       )}
 
-      <div className="space-y-2 mb-8">
+      <div className="space-y-2 mb-8 flex-grow">
         {navItems.map(({ path, icon: Icon, label }) => (
           <Link
             key={path}
@@ -70,9 +77,10 @@ export const Navbar = () => {
                 ? 'bg-hacker-green text-black'
                 : 'text-white hover:bg-hacker-green hover:text-black'
             }`}
+            title={label}
           >
             <Icon className="h-5 w-5" />
-            <span className="font-medium">{label}</span>
+            {!isCollapsed && <span className="font-medium">{label}</span>}
           </Link>
         ))}
       </div>
@@ -81,17 +89,19 @@ export const Navbar = () => {
         <Link
           to="/create-mission"
           className="flex items-center space-x-3 px-4 py-3 rounded-lg text-white hover:bg-hacker-green hover:text-black transition-all duration-200"
+          title="Create Mission"
         >
           <Plus className="h-5 w-5" />
-          <span className="font-medium">Create Mission</span>
+          {!isCollapsed && <span className="font-medium">Create Mission</span>}
         </Link>
         
         <button
           onClick={logout}
           className="flex items-center space-x-3 px-4 py-3 rounded-lg text-white hover:bg-hacker-green hover:text-black transition-all duration-200 w-full"
+          title="Logout"
         >
           <LogOut className="h-5 w-5" />
-          <span className="font-medium">Logout</span>
+          {!isCollapsed && <span className="font-medium">Logout</span>}
         </button>
       </div>
     </nav>
