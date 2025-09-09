@@ -38,7 +38,7 @@ const mockMessages: ChatMessage[] = [
   }
 ];
 
-const BlinkingCursor = () => <span className="animate-ping inline-block w-2 h-4 bg-hacker-green"></span>;
+const BlinkingCursor = () => <span className="animate-ping inline-block w-2 h-4 bg-hacker-green ml-1"></span>;
 
 export const Chat = () => {
   const { user } = useAuth();
@@ -79,17 +79,17 @@ export const Chat = () => {
   };
 
   return (
-    <div className="flex-1 bg-black min-h-screen flex flex-col font-mono">
+    <div className="flex-1 bg-black min-h-screen flex flex-col tracking-tighter">
       <div className="border-b border-hacker-green p-6">
         <h1 className="text-2xl font-bold text-hacker-green">#general</h1>
         <p className="text-hacker-green">&gt; Connect with fellow developers</p>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 text-hacker-green">
+      <div className="flex-1 overflow-y-auto p-6 space-y-6 text-hacker-green text-xs">
         {messages.map((message) => (
           <div key={message.id} className="flex justify-between">
             <div>
-              <span className="font-bold">{message.username}:</span>
+              <span className="font-bold">&gt;&gt; {message.username}:</span>
               <span className="ml-2">{message.message}</span>
             </div>
             <span className="text-xs self-start">{formatTime(message.timestamp)}</span>
@@ -100,14 +100,13 @@ export const Chat = () => {
 
       <form onSubmit={handleSendMessage} className="p-6">
         <div className="flex items-center">
-            <span className="text-hacker-green">{user?.username}:~$</span>
+            <span className="text-hacker-green">{user?.username}:~$<BlinkingCursor /></span>
             <input
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               className="flex-1 bg-transparent focus:outline-none text-hacker-green ml-2"
             />
-            {newMessage.length === 0 && <BlinkingCursor />}
           <div className="flex space-x-2 ml-4">
             <button
               type="button"
