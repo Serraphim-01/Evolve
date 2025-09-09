@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { MissionCard } from './MissionCard';
 import { Mission } from '../../types';
+import { LineChartComponent } from './LineChart';
 import { TerminalLog } from './TerminalLog';
 import { getLanguageIcon } from '../../utils/iconUtils';
 import './Hacker.css';
@@ -68,13 +69,14 @@ export const Dashboard: React.FC = () => {
               <p className="text-hacker-green text-base">&gt; Ready to tackle some new challenges?</p>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
                 <div id="terminal-log-container" className="bg-black rounded-xl p-6 border border-hacker-green">
                     <h2 className="text-lg font-semibold text-hacker-green mb-4">
                         System Log
                     </h2>
                     <TerminalLog />
                 </div>
+                <LineChartComponent />
             </div>
 
             <div className="bg-black rounded-xl p-6 border border-hacker-green">
