@@ -1,0 +1,49 @@
+services:
+  frontend:
+    build: ./frontend
+    container_name: evolve-frontend
+    ports:
+      - "3001:3000"   # host:container
+    environment:
+      - NODE_ENV=development
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env.local
+
+  backend:
+    build: ./backend
+    container_name: evolve-backend
+    ports:
+      - "4001:4000"   # remap backend to 4001
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=postgres://postgres:password@db:5432/office
+    command: npm run dev
+    depends_on:
+      - db
+    env_file:
+      - ./backend/.env
+
+  db:
+    image: postgres:15
+    container_name: evolve-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: evolve
+    ports:
+      - "5433:5432"   # remap DB to 5433
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
