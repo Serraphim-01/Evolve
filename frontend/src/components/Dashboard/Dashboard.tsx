@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import { MissionCard } from './MissionCard';
 import { Mission } from '../../types';
 import { LineChartComponent } from './LineChart';
 import { TerminalLog } from './TerminalLog';
 import './Hacker.css';
+import { MissionInfoModal } from './MissionInfoModal';
 
 const mockMissions: Mission[] = [
   {
@@ -55,6 +56,18 @@ const mockMissions: Mission[] = [
 
 export const Dashboard: React.FC = () => {
   const { user } = useAuth();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
+
+  const handleOpenModal = (mission: Mission) => {
+    setSelectedMission(mission);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedMission(null);
+  };
 
   const pvpMissions = mockMissions.filter(mission => mission.mode === 'pvp');
   const pvsaiMissions = mockMissions.filter(mission => mission.mode === 'pvsai');
@@ -81,33 +94,39 @@ export const Dashboard: React.FC = () => {
             </div>
 
             <div className="space-y-8">
-              <div>
+              <div id="pvp">
                 <h2 className="text-2xl font-bold text-white mb-4">Player vs. Player</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {pvpMissions.map((mission) => (
-                      <MissionCard key={mission.id} mission={mission} />
+                      <MissionCard key={mission.id} mission={mission} onCardClick={handleOpenModal} />
                   ))}
                 </div>
               </div>
 
-              <div>
+              <div id="pvsai">
                 <h2 className="text-2xl font-bold text-white mb-4">Player vs. AI</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {pvsaiMissions.map((mission) => (
-                      <MissionCard key={mission.id} mission={mission} />
+                      <MissionCard key={mission.id} mission={mission} onCardClick={handleOpenModal} />
                   ))}
                 </div>
               </div>
 
-              <div>
+              <div id="normal">
                 <h2 className="text-2xl font-bold text-white mb-4">Normal Challenges</h2>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                   {normalMissions.map((mission) => (
-                      <MissionCard key={mission.id} mission={mission} />
+                      <MissionCard key={mission.id} mission={mission} onCardClick={handleOpenModal} />
                   ))}
                 </div>
               </div>
             </div>
+            {isModalOpen && selectedMission && (
+                <MissionInfoModal
+                    mission={selectedMission}
+                    onClose={handleCloseModal}
+                />
+            )}
         </div>
     </div>
   );

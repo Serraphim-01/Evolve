@@ -10,18 +10,29 @@ import {
   Code,
   Plus,
   ChevronsLeft,
-  ChevronsRight
+  ChevronsRight,
+  ChevronDown
 } from 'lucide-react';
 
 export const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuth();
   const location = useLocation();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [challengesOpen, setChallengesOpen] = useState(false);
 
   if (!isAuthenticated) return null;
 
   const navItems = [
     { path: '/dashboard', icon: Home, label: 'Dashboard' },
+    {
+      label: 'Challenges',
+      icon: Code,
+      children: [
+        { path: '/dashboard#pvp', label: 'Player vs. Player' },
+        { path: '/dashboard#pvsai', label: 'Player vs. AI' },
+        { path: '/dashboard#normal', label: 'Normal Challenges' },
+      ]
+    },
     { path: '/profile', icon: User, label: 'Profile' },
     { path: '/chat', icon: MessageSquare, label: 'Chat' },
     { path: '/settings', icon: Settings, label: 'Settings' },
@@ -68,21 +79,60 @@ export const Navbar = () => {
       )}
 
       <div className="space-y-2 mb-8 flex-grow">
-        {navItems.map(({ path, icon: Icon, label }) => (
-          <Link
-            key={path}
-            to={path}
-            className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-              location.pathname === path
-                ? 'bg-hacker-green text-black'
-                : 'text-white hover:bg-hacker-green hover:text-black'
-            }`}
-            title={label}
-          >
-            <Icon className="h-5 w-5" />
-            {!isCollapsed && <span className="font-medium">{label}</span>}
-          </Link>
-        ))}
+        {navItems.map((item) => {
+          if (item.children) {
+            return (
+              <div key={item.label}>
+                <button
+                  onClick={() => setChallengesOpen(!challengesOpen)}
+                  className={`flex items-center justify-between w-full px-4 py-3 rounded-lg transition-all duration-200 ${
+                    location.pathname.startsWith('/dashboard')
+                      ? 'bg-hacker-green text-black'
+                      : 'text-white hover:bg-hacker-green hover:text-black'
+                  }`}
+                  title={item.label}
+                >
+                  <div className="flex items-center space-x-3">
+                    <item.icon className="h-5 w-5" />
+                    {!isCollapsed && <span className="font-medium">{item.label}</span>}
+                  </div>
+                  {!isCollapsed && (
+                    <ChevronDown className={`h-5 w-5 transition-transform ${challengesOpen ? 'rotate-180' : ''}`} />
+                  )}
+                </button>
+                {challengesOpen && !isCollapsed && (
+                  <div className="pl-8 pt-2 space-y-2">
+                    {item.children.map((child) => (
+                      <Link
+                        key={child.path}
+                        to={child.path}
+                        className="flex items-center space-x-3 px-4 py-2 rounded-lg text-white hover:bg-hacker-green hover:text-black transition-all duration-200"
+                        title={child.label}
+                      >
+                        <span className="font-medium text-sm">{child.label}</span>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          }
+          return (
+            <Link
+              key={item.path}
+              to={item.path}
+              className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 ${
+                location.pathname === item.path
+                  ? 'bg-hacker-green text-black'
+                  : 'text-white hover:bg-hacker-green hover:text-black'
+              }`}
+              title={item.label}
+            >
+              <item.icon className="h-5 w-5" />
+              {!isCollapsed && <span className="font-medium">{item.label}</span>}
+            </Link>
+          );
+        })}
       </div>
 
       <div className="space-y-2 border-t border-white pt-6">

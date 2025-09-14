@@ -59,27 +59,8 @@ export const MissionSolver = () => {
 
   return (
     <div className="flex-1 bg-black min-h-screen p-8 text-white">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Left side: Mission details */}
-        <div>
-          <h1 className="text-3xl font-bold text-hacker-green mb-2">{mockMission.title}</h1>
-          <p className="text-lg mb-4">{mockMission.description}</p>
-          <div className="flex items-center space-x-4 mb-6">
-            <span className="text-sm">Language: {mockMission.language}</span>
-            <span className="text-sm">XP: {mockMission.xpReward}</span>
-          </div>
-
-          <div className="bg-black border border-white rounded-lg p-4">
-            <h3 className="text-xl font-semibold mb-2">Output</h3>
-            <pre className="bg-gray-900 p-4 rounded-md overflow-x-auto text-sm">{output || 'Run your code to see the output here.'}</pre>
-          </div>
-        </div>
-
-        {/* Right side: Code editor */}
+      <div className="max-w-7xl mx-auto">
         <div className="bg-black border border-white rounded-lg">
-          <div className="p-4 border-b border-white">
-            <h2 className="text-xl font-semibold">Solution</h2>
-          </div>
           <Editor
             value={code}
             onValueChange={code => setCode(code)}
@@ -89,10 +70,14 @@ export const MissionSolver = () => {
               fontFamily: '"Fira code", "Fira Mono", monospace',
               fontSize: 14,
               backgroundColor: '#011627', // A dark background color
-              minHeight: '400px',
+              minHeight: 'calc(100vh - 250px)',
             }}
-            className="rounded-b-lg"
+            className="rounded-t-lg"
           />
+          <div className="bg-black border-t border-white rounded-b-lg p-4">
+            <h3 className="text-xl font-semibold mb-2">Output</h3>
+            <pre className="bg-gray-900 p-4 rounded-md overflow-x-auto text-sm h-32">{output || 'Run your code to see the output here.'}</pre>
+          </div>
           <div className="p-4 border-t border-white flex justify-end space-x-4">
             <button
               onClick={handleRunCode}

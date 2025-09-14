@@ -1,15 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Mission } from '../../types';
-import { Users, Award, Play } from 'lucide-react';
+import { Users, Award } from 'lucide-react';
 
 interface MissionCardProps {
   mission: Mission;
+  onCardClick: (mission: Mission) => void;
 }
 
-export const MissionCard: React.FC<MissionCardProps> = ({ mission }) => {
+export const MissionCard: React.FC<MissionCardProps> = ({ mission, onCardClick }) => {
   return (
-    <div className="bg-black border border-white rounded-lg p-4 hover:border-hacker-green transition-all duration-200 cursor-pointer group flex flex-col">
+    <div
+      className="bg-black border border-white rounded-lg p-4 hover:border-hacker-green transition-all duration-200 cursor-pointer group flex flex-col"
+      onClick={() => onCardClick(mission)}
+    >
       <div className="flex items-start justify-between mb-3">
         <div className="px-2 py-0.5 rounded-full text-xs font-medium text-white bg-blue-500/20">
           {mission.type}
@@ -31,9 +34,6 @@ export const MissionCard: React.FC<MissionCardProps> = ({ mission }) => {
             <span>{mission.xpReward} XP</span>
           </div>
         </div>
-        <Link to={`/mission/${mission.id}`} className="bg-hacker-green text-black p-2 rounded-full hover:bg-opacity-80 transition-colors" title="Start Mission">
-          <Play className="h-5 w-5" />
-        </Link>
       </div>
     </div>
   );
