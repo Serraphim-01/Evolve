@@ -4,7 +4,9 @@ import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
-import 'prismjs/themes/prism-tomorrow.css'; // Using prism-tomorrow theme
+import 'prismjs/themes/prism-tomorrow.css';
+import { useTypingEffect } from '../../hooks/useTypingEffect';
+import { Play, Check } from 'lucide-react';
 
 // Mock mission data
 const mockMission = {
@@ -23,26 +25,22 @@ const mockMission = {
 }`
 };
 
+const BlinkingCursor = () => <span className="animate-ping inline-block w-2 h-4 bg-hacker-green ml-1"></span>;
+
 export const MissionSolver = () => {
   const { id } = useParams<{ id: string }>();
   const [code, setCode] = useState(mockMission.template);
   const [output, setOutput] = useState('');
 
+  const challengeText = `Challenge: ${mockMission.description}`;
+  const typedChallenge = useTypingEffect(challengeText, 50);
+
   const handleRunCode = () => {
-    // This is where you would typically send the code to a secure execution environment.
-    // For this example, we'll just mock a successful run.
     try {
-      // NOTE: Using eval is insecure. This is for demonstration purposes only.
-      // In a real application, this should be a call to a secure backend service.
       const result = eval(`
         (function() {
           ${code}
-          // Mock tree data
-          const tree = {
-            value: 1,
-            left: { value: 2, left: null, right: null },
-            right: { value: 3, left: null, right: null }
-          };
+          const tree = { value: 1, left: { value: 2, left: null, right: null }, right: { value: 3, left: null, right: null } };
           return solve(tree);
         })()
       `);
@@ -54,13 +52,33 @@ export const MissionSolver = () => {
 
   const handleSubmit = () => {
     alert('Submitting solution...');
-    // Here you would compare the output with the expected solution
   };
 
   return (
-    <div className="flex-1 bg-black min-h-screen p-8 text-white">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-black border border-white rounded-lg">
+    <div className="flex-1 bg-black min-h-screen p-8 text-white font-mono">
+      <div className="bg-black border border-hacker-green rounded-lg overflow-hidden">
+        <div className="p-4 bg-gray-900 flex justify-between items-center border-b border-hacker-green">
+          <div className="text-hacker-green">
+            <p>&gt; {mockMission.title}</p>
+          </div>
+          <div className="flex space-x-4">
+            <button onClick={handleRunCode} className="text-white hover:text-hacker-green" title="Run Code">
+              <Play className="h-5 w-5" />
+            </button>
+            <button onClick={handleSubmit} className="text-white hover:text-hacker-green" title="Submit Solution">
+              <Check className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        <div className="p-4">
+            <p className="text-hacker-green whitespace-pre-wrap">
+                {typedChallenge}
+                {typedChallenge.length === challengeText.length ? '' : <BlinkingCursor />}
+            </p>
+        </div>
+
+        <div className="relative">
           <Editor
             value={code}
             onValueChange={code => setCode(code)}
@@ -69,29 +87,17 @@ export const MissionSolver = () => {
             style={{
               fontFamily: '"Fira code", "Fira Mono", monospace',
               fontSize: 14,
-              backgroundColor: '#011627', // A dark background color
-              minHeight: 'calc(100vh - 250px)',
+              backgroundColor: '#011627',
+              minHeight: 'calc(100vh - 450px)',
             }}
-            className="rounded-t-lg"
           />
-          <div className="bg-black border-t border-white rounded-b-lg p-4">
-            <h3 className="text-xl font-semibold mb-2">Output</h3>
-            <pre className="bg-gray-900 p-4 rounded-md overflow-x-auto text-sm h-32">{output || 'Run your code to see the output here.'}</pre>
-          </div>
-          <div className="p-4 border-t border-white flex justify-end space-x-4">
-            <button
-              onClick={handleRunCode}
-              className="px-6 py-2 border border-white text-white rounded-lg hover:bg-white hover:text-black transition-colors"
-            >
-              Run Code
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="px-6 py-2 bg-hacker-green text-black rounded-lg font-medium hover:bg-opacity-80 transition-colors"
-            >
-              Submit Solution
-            </button>
-          </div>
+        </div>
+
+        <div className="p-4 border-t border-hacker-green bg-gray-900">
+          <h3 className="text-hacker-green font-semibold mb-2">&gt; Output</h3>
+          <pre className="bg-black p-4 rounded-md overflow-x-auto text-sm h-32">
+            {output ? `> ${output}` : '> Waiting for output...'}
+          </pre>
         </div>
       </div>
     </div>

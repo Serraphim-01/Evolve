@@ -10,6 +10,7 @@ import { Settings } from './components/Settings/Settings';
 import { Chat } from './components/Chat/Chat';
 import { CreateMission } from './components/CreateMission/CreateMission';
 import { MissionSolver } from './components/MissionSolver/MissionSolver';
+import { Challenges } from './components/Challenges/Challenges';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
@@ -80,6 +81,14 @@ const AppRoutes = () => {
             <div className="flex">
               <Navbar />
               <MissionSolver />
+            </div>
+          </ProtectedRoute>
+        } />
+        <Route path="/challenges" element={
+          <ProtectedRoute>
+            <div className="flex">
+              <Navbar />
+              <Challenges />
             </div>
           </ProtectedRoute>
         } />

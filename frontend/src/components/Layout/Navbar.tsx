@@ -28,9 +28,10 @@ export const Navbar = () => {
       label: 'Challenges',
       icon: Code,
       children: [
-        { path: '/dashboard#pvp', label: 'Player vs. Player' },
-        { path: '/dashboard#pvsai', label: 'Player vs. AI' },
-        { path: '/dashboard#normal', label: 'Normal Challenges' },
+        { path: '/challenges', label: 'All Challenges' },
+        { path: '/challenges#pvp', label: 'Player vs. Player' },
+        { path: '/challenges#pvsai', label: 'Player vs. AI' },
+        { path: '/challenges#normal', label: 'Normal Challenges' },
       ]
     },
     { path: '/profile', icon: User, label: 'Profile' },
@@ -39,7 +40,7 @@ export const Navbar = () => {
   ];
 
   return (
-    <nav className={`bg-black border-r border-white min-h-screen p-4 flex flex-col transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+    <nav className={`bg-black border-r border-white h-screen p-4 flex flex-col transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64'}`}>
       <div className="flex items-center justify-between mb-8">
         <div className={`flex items-center space-x-3 ${isCollapsed ? 'hidden' : ''}`}>
             <div className="bg-hacker-green rounded-lg p-2">
@@ -86,7 +87,7 @@ export const Navbar = () => {
                 <button
                   onClick={() => setChallengesOpen(!challengesOpen)}
                   className={`flex items-center justify-between w-full px-4 py-3 rounded-lg transition-all duration-200 ${
-                    location.pathname.startsWith('/dashboard')
+                    location.pathname.startsWith('/challenges')
                       ? 'bg-hacker-green text-black'
                       : 'text-white hover:bg-hacker-green hover:text-black'
                   }`}
@@ -106,7 +107,11 @@ export const Navbar = () => {
                       <Link
                         key={child.path}
                         to={child.path}
-                        className="flex items-center space-x-3 px-4 py-2 rounded-lg text-white hover:bg-hacker-green hover:text-black transition-all duration-200"
+                        className={`flex items-center space-x-3 px-4 py-2 rounded-lg transition-all duration-200 ${
+                          location.pathname + location.hash === child.path
+                            ? 'text-hacker-green'
+                            : 'text-white hover:text-hacker-green'
+                        }`}
                         title={child.label}
                       >
                         <span className="font-medium text-sm">{child.label}</span>
