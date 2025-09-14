@@ -1,40 +1,33 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { Code, Tag, Award, FileText, Save } from 'lucide-react';
+import { Award, FileText, Save } from 'lucide-react';
+import { Mission } from '../../types';
 
 export const CreateMission = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
     title: '',
-    description: '',
-    language: 'JavaScript',
-    difficulty: 'beginner',
+    challenge: '',
     xpReward: 100,
-    tags: '',
-    type: 'test' as 'test' | 'debug',
+    type: 'normal' as 'normal' | 'timed' | 'one-time',
+    mode: 'normal' as 'normal' | 'pvp' | 'pvsai',
   });
-
-  const languages = [
-    'JavaScript', 'Python', 'Java', 'TypeScript', 'C++', 'C#', 
-    'Go', 'Rust', 'PHP', 'Ruby', 'Swift', 'Kotlin'
-  ];
-
-  const difficulties = [
-    { value: 'beginner', label: 'Beginner', xp: 100 },
-    { value: 'intermediate', label: 'Intermediate', xp: 150 },
-    { value: 'advanced', label: 'Advanced', xp: 250 },
-  ];
 
   const handleInputChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleDifficultyChange = (difficulty: string) => {
-    const selectedDifficulty = difficulties.find(d => d.value === difficulty);
+  const handleTypeChange = (type: 'normal' | 'timed' | 'one-time') => {
     setFormData(prev => ({
       ...prev,
-      difficulty,
-      xpReward: selectedDifficulty?.xp || 100
+      type,
+    }));
+  };
+
+  const handleModeChange = (mode: 'normal' | 'pvp' | 'pvsai') => {
+    setFormData(prev => ({
+      ...prev,
+      mode,
     }));
   };
 
@@ -75,88 +68,83 @@ export const CreateMission = () => {
 
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
-                  Programming Language
-                </label>
-                <div className="relative">
-                  <Code className="absolute left-3 top-3.5 h-5 w-5 text-white" />
-                  <select
-                    value={formData.language}
-                    onChange={(e) => handleInputChange('language', e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white appearance-none"
-                  >
-                    {languages.map((lang) => (
-                      <option key={lang} value={lang}>{lang}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Difficulty Level
+                  Challenge Type
                 </label>
                 <div className="grid grid-cols-3 gap-3">
-                  {difficulties.map(({ value, label, xp }) => (
-                    <button
-                      key={value}
-                      type="button"
-                      onClick={() => handleDifficultyChange(value)}
-                      className={`p-3 rounded-lg border-2 transition-all ${
-                        formData.difficulty === value
-                          ? 'border-hacker-green bg-hacker-green text-black'
-                          : 'border-white bg-black text-white hover:border-hacker-green hover:text-hacker-green'
-                      }`}
-                    >
-                      <div className="text-sm font-medium">{label}</div>
-                      <div className="text-xs">{xp} XP</div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-white mb-2">
-                  Mission Type
-                </label>
-                <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
-                    onClick={() => handleInputChange('type', 'test')}
+                    onClick={() => handleTypeChange('normal')}
                     className={`p-3 rounded-lg border-2 transition-all ${
-                      formData.type === 'test'
+                      formData.type === 'normal'
                         ? 'border-hacker-green bg-hacker-green text-black'
-                        : 'border-white bg-black text-white hover:border-hacker-green'
+                        : 'border-white bg-black text-white hover:border-hacker-green hover:text-hacker-green'
                     }`}
                   >
-                    Proficiency Test
+                    Normal
                   </button>
                   <button
                     type="button"
-                    onClick={() => handleInputChange('type', 'debug')}
+                    onClick={() => handleTypeChange('timed')}
                     className={`p-3 rounded-lg border-2 transition-all ${
-                      formData.type === 'debug'
+                      formData.type === 'timed'
                         ? 'border-hacker-green bg-hacker-green text-black'
-                        : 'border-white bg-black text-white hover:border-hacker-green'
+                        : 'border-white bg-black text-white hover:border-hacker-green hover:text-hacker-green'
                     }`}
                   >
-                    Debugging Challenge
+                    Timed
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleTypeChange('one-time')}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      formData.type === 'one-time'
+                        ? 'border-hacker-green bg-hacker-green text-black'
+                        : 'border-white bg-black text-white hover:border-hacker-green hover:text-hacker-green'
+                    }`}
+                  >
+                    One-Time
                   </button>
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
-                  Tags (comma separated)
+                  Challenge Mode
                 </label>
-                <div className="relative">
-                  <Tag className="absolute left-3 top-3.5 h-5 w-5 text-white" />
-                  <input
-                    type="text"
-                    value={formData.tags}
-                    onChange={(e) => handleInputChange('tags', e.target.value)}
-                    placeholder="algorithms, data-structures, recursion..."
-                    className="w-full pl-10 pr-4 py-3 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white placeholder-white"
-                  />
+                <div className="grid grid-cols-3 gap-3">
+                  <button
+                    type="button"
+                    onClick={() => handleModeChange('normal')}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      formData.mode === 'normal'
+                        ? 'border-hacker-green bg-hacker-green text-black'
+                        : 'border-white bg-black text-white hover:border-hacker-green hover:text-hacker-green'
+                    }`}
+                  >
+                    Normal
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleModeChange('pvp')}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      formData.mode === 'pvp'
+                        ? 'border-hacker-green bg-hacker-green text-black'
+                        : 'border-white bg-black text-white hover:border-hacker-green hover:text-hacker-green'
+                    }`}
+                  >
+                    PVP
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleModeChange('pvsai')}
+                    className={`p-3 rounded-lg border-2 transition-all ${
+                      formData.mode === 'pvsai'
+                        ? 'border-hacker-green bg-hacker-green text-black'
+                        : 'border-white bg-black text-white hover:border-hacker-green hover:text-hacker-green'
+                    }`}
+                  >
+                    Player vs. AI
+                  </button>
                 </div>
               </div>
             </div>
@@ -164,11 +152,11 @@ export const CreateMission = () => {
             <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium text-white mb-2">
-                  Mission Description
+                  Challenge
                 </label>
                 <textarea
-                  value={formData.description}
-                  onChange={(e) => handleInputChange('description', e.target.value)}
+                  value={formData.challenge}
+                  onChange={(e) => handleInputChange('challenge', e.target.value)}
                   placeholder="Describe the mission objectives, requirements, and any helpful hints..."
                   rows={12}
                   className="w-full p-4 bg-black border border-white rounded-lg focus:border-hacker-green focus:outline-none text-white placeholder-white resize-none"
@@ -185,14 +173,6 @@ export const CreateMission = () => {
                   <div className="flex justify-between text-sm">
                     <span className="text-white">XP Reward:</span>
                     <span className="text-white font-medium">{formData.xpReward} XP</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-white">Difficulty:</span>
-                    <span className="text-white font-medium capitalize">{formData.difficulty}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-white">Language:</span>
-                    <span className="text-white font-medium">{formData.language}</span>
                   </div>
                 </div>
               </div>

@@ -14,14 +14,12 @@ export interface Mission {
   id: string;
   title: string;
   description: string;
-  language: string;
-  difficulty: 'beginner' | 'intermediate' | 'advanced';
   xpReward: number;
   createdBy: string;
   completions: number;
-  tags: string[];
   createdAt: string;
-  type: 'test' | 'debug';
+  type: 'timed' | 'one-time' | 'normal';
+  mode: 'pvp' | 'pvsai' | 'normal';
 }
 
 export interface Achievement {
