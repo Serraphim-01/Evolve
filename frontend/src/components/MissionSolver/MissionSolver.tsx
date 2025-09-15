@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Editor from 'react-simple-code-editor';
 import { highlight, languages } from 'prismjs/components/prism-core';
@@ -29,11 +29,27 @@ const BlinkingCursor = () => <span className="animate-ping inline-block w-2 h-4 
 
 export const MissionSolver = () => {
   const { id } = useParams<{ id: string }>();
-  const [code, setCode] = useState(mockMission.template);
+  const [code, setCode] = useState("");
   const [output, setOutput] = useState('');
+  const [descriptionComplete, setDescriptionComplete] = useState(false);
+  const [codeAnimationComplete, setCodeAnimationComplete] = useState(false);
 
   const challengeText = `Challenge: ${mockMission.description}`;
   const typedChallenge = useTypingEffect(challengeText, 50);
+  const typedCode = useTypingEffect(descriptionComplete ? mockMission.template : "", 20);
+
+  useEffect(() => {
+    if (typedChallenge.length === challengeText.length) {
+      setTimeout(() => setDescriptionComplete(true), 500);
+    }
+  }, [typedChallenge, challengeText.length]);
+
+  useEffect(() => {
+      setCode(typedCode);
+      if (descriptionComplete && typedCode.length === mockMission.template.length) {
+        setTimeout(() => setCodeAnimationComplete(true), 500);
+      }
+  }, [typedCode, descriptionComplete, mockMission.template.length]);
 
   const handleRunCode = () => {
     try {
@@ -74,31 +90,40 @@ export const MissionSolver = () => {
         <div className="p-4">
             <p className="text-hacker-green whitespace-pre-wrap">
                 {typedChallenge}
-                {typedChallenge.length === challengeText.length ? '' : <BlinkingCursor />}
+                {!descriptionComplete && <BlinkingCursor />}
             </p>
         </div>
 
-        <div className="relative">
-          <Editor
-            value={code}
-            onValueChange={code => setCode(code)}
-            highlight={code => highlight(code, languages.js, 'javascript')}
-            padding={16}
-            style={{
-              fontFamily: '"Fira code", "Fira Mono", monospace',
-              fontSize: 14,
-              backgroundColor: '#011627',
-              minHeight: 'calc(100vh - 450px)',
-            }}
-          />
-        </div>
+        {descriptionComplete && (
+            <div className="relative">
+              <Editor
+                value={code}
+                onValueChange={code => setCode(code)}
+                highlight={code => highlight(code, languages.js, 'javascript')}
+                padding={16}
+                style={{
+                  fontFamily: '"Fira code", "Fira Mono", monospace',
+                  fontSize: 14,
+                  backgroundColor: '#0D0D0D',
+                  minHeight: 'calc(100vh - 450px)',
+                }}
+              />
+              {!codeAnimationComplete && (
+                <div className="absolute top-0 left-0 p-4">
+                    <BlinkingCursor />
+                </div>
+              )}
+            </div>
+        )}
 
-        <div className="p-4 border-t border-hacker-green bg-gray-900">
-          <h3 className="text-hacker-green font-semibold mb-2">&gt; Output</h3>
-          <pre className="bg-black p-4 rounded-md overflow-x-auto text-sm h-32">
-            {output ? `> ${output}` : '> Waiting for output...'}
-          </pre>
-        </div>
+        {codeAnimationComplete && (
+            <div className="p-4 border-t border-hacker-green bg-gray-900">
+              <h3 className="text-hacker-green font-semibold mb-2">&gt; Output</h3>
+              <pre className="bg-black p-4 rounded-md overflow-x-auto text-sm h-32">
+                {output ? `> ${output}` : '> Waiting for output...'}
+              </pre>
+            </div>
+        )}
       </div>
     </div>
   );

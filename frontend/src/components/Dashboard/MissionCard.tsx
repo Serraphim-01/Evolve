@@ -10,7 +10,7 @@ interface MissionCardProps {
 export const MissionCard: React.FC<MissionCardProps> = ({ mission, onCardClick }) => {
   return (
     <div
-      className="bg-black border border-white rounded-lg p-4 hover:border-hacker-green transition-all duration-200 cursor-pointer group flex flex-col"
+      className="bg-black border border-white rounded-lg p-4 hover:border-hacker-green transition-all duration-200 cursor-pointer group flex flex-col max-h-[300px]"
       onClick={() => onCardClick(mission)}
     >
       <div className="flex items-start justify-between mb-3">
